@@ -30,11 +30,28 @@ def turn_right():
     turn_left();  #built-in functions of the site
     turn_left();  #built-in functions of the site
 
-while at_goal() != True:    #built-in functions of the site
-    if front_is_clear() == True:    #built-in functions of the site
-        move();   #built-in functions of the site
-    elif right_is_clear() == True:  #built-in functions of the site
-        turn_right();   
-        move();   #built-in functions of the site
-    else:
-        turn_left();        #built-in functions of the site
+# while at_goal() != True:    #built-in functions of the site
+#     if front_is_clear() == True:    #built-in functions of the site
+#         move();   #built-in functions of the site
+#     elif right_is_clear() == True:  #built-in functions of the site
+#         turn_right();   
+#         move();   #built-in functions of the site
+#     else:
+#         turn_left();        #built-in functions of the site
+
+#A Better Approack as the Reeborg was getting stuck in a partiuclar scenerio.
+while at_goal() == False :
+    if front_is_clear() :
+        move()
+ 
+    if is_facing_north() > right_is_clear():  #By adding this block of code here, we're able to       
+        if wall_in_front()==False:            #catch that square movement.
+           move()
+ 
+    if right_is_clear():
+        turn_right()
+    elif wall_in_front():
+        turn_left()
+        
+# Bug noticed/Question By: Tej ("suspect flaw in lecture reborg maze code for a specific starting scenario")        
+# Code Solution by: Petru Marian from Course-Comment-Section

@@ -2,6 +2,7 @@ import random
 from Hangman_Art import logo, stages
 from Hangman_Words import Word_list
 
+
 print (logo)
 word_at_random = random.choice(Word_list)
 

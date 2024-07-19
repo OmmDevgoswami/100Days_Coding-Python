@@ -69,27 +69,45 @@ def rad_to_deg(num):
 
 #Trigonometric Operations
 def sin(num):
-    """" Used to find the Sine of a number  """
+    """"
+    Used to find the Sine of a number 
+    By default use radian as the value. 
+    """
     return math.sin(num)
 
 def cos(num):
-    """" Used to find the Cosine of a number  """
+    """" 
+    Used to find the Cosine of a number 
+    By default use radian as the value. 
+    """
     return math.cos(num)
 
 def tan(num):
-    """" Used to find the Tangent of a number  """
+    """"
+    Used to find the Tangent of a number  
+    By default use radian as the value. 
+    """
     return math.tan(num)
 
 def cosec(num):
-    """" Used to find the arc sine of a number  """
+    """"
+    Used to find the arc sine of a number
+    By default use radian as the value.  
+    """
     return math.asin(num)
 
 def sec(num):
-    """" Used to find the arc cosine of a number  """
+    """" 
+    Used to find the arc cosine of a number  
+    By default use radian as the value.
+    """
     return math.acos(num)
 
 def cot(num):
-    """" Used to find the arc tangent of a number  """
+    """"
+    Used to find the arc tangent of a number  
+    By default use radian as the value. 
+    """
     return math.atan2(num)
 
 #Other Operations
@@ -123,20 +141,35 @@ adv_cal_operators = {
 
 def calculator():
     print (LOGO)
-    num_1 = float(input("Enter the First Number: "))
-    for symbols in cal_operators:
-        print(symbols)
-    while True:
-        symbol = input("Enter the Operation: ")
-        num_2 = float(input("Enter the Next Number: "))
-        answer = cal_operators[symbol](num_1, num_2)
-        print (f"Result: {num_1} {symbol} {num_2} = {answer}")
-        
-        loop = input("Type 'y' to Continue or 'n' to restart. " ).lower()
-        if loop == "n":
-            system_clean()
-            calculator ()
-        elif loop == "y":
-            num_1 = answer
+    choice = input("Choose 'Basic' or 'Advance' Calculator: ").lower()
+    if (choice == "basic"):
+        num_1 = float(input("Enter the First Number: "))
+        for symbols in cal_operators:
+            print(symbols)
+        while True:
+            symbol = input("Enter the Operation: ")
+            num_2 = float(input("Enter the Next Number: "))
+            answer = cal_operators[symbol](num_1, num_2)
+            print (f"Result: {num_1} {symbol} {num_2} = {answer}")
+            
+            loop = input("Type 'y' to Continue or 'n' to restart. " ).lower()
+            if loop == "n":
+                system_clean()
+                calculator ()
+            elif loop == "y":
+                num_1 = answer
+    elif (choice == "advance"):
+        for symbols in adv_cal_operators:
+            print(symbols)
+        while True:
+            symbol = input("Enter the Operation: ")
+            num = float(input("Enter the Number: "))
+            answer = adv_cal_operators[symbol](num)
+            print (f"Result: {symbol} ({num}) = {answer}")
+            
+            loop = input("Type 'y' to Continue or 'n' to restart. " ).lower()
+            if loop == "n":
+                system_clean()
+                calculator ()      
 
 calculator()

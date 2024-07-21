@@ -1,4 +1,7 @@
-import random
+import random, os
+def system_clean():
+    if os.name == 'nt':
+        os.system('cls')
 
 LOGO = '''
 .------.            _     _            _    _            _    
@@ -11,31 +14,31 @@ LOGO = '''
       `------'                           |__/  
 '''
 #print(LOGO)
-cards = {
-    0 : 11,
-    1 : 2,
-    2 : 3,
-    3 : 4,
-    4 : 5,
-    5 : 6,
-    6 : 7,
-    7 : 8,
-    8 : 9,
-    9 : 10,
-    10 : 10,
-    11 : 10,
-    12 : 10
-}
+# cards = {
+#     0 : 11,
+#     1 : 2,
+#     2 : 3,
+#     3 : 4,
+#     4 : 5,
+#     5 : 6,
+#     6 : 7,
+#     7 : 8,
+#     8 : 9,
+#     9 : 10,
+#     10 : 10,
+#     11 : 10,
+#     12 : 10
+# }
 
-def card_display():
+def draw_cards(game = "n" , player_score = 0, computer_score = 0):
     symbol = ["♠", "♦", "♥", "♣️"]
     icon = random.choice(symbol)
-    rand = random.randrange(0,13)
     Cards_art = [
 f'''
+{ 'Ace' }
  -------------    
-|A{icon}           | 
-|   -------   | 
+|A{icon}           |        
+|   -------   |           
 |  |       |  | 
 |  |       |  | 
 |  |       |  | 
@@ -48,6 +51,7 @@ f'''
  -------------  
  ''',   
  f'''
+ { '2' }
  -------------  
 |2{icon}           | 
 |   -------   | 
@@ -63,6 +67,7 @@ f'''
  -------------  
  ''',  
 f'''
+{ '3' }
  -------------  
 |3{icon}           | 
 |   -------   | 
@@ -78,6 +83,7 @@ f'''
  -------------  
  ''', 
 f'''
+{ '4' }
  -------------  
 |4{icon}           | 
 |   -------   | 
@@ -92,6 +98,7 @@ f'''
 |           {icon}4| 
  -------------  
  ''',  f'''
+ { '5' }
  -------------  
 |5{icon}           | 
 |   -------   | 
@@ -107,6 +114,7 @@ f'''
  -------------  
  ''', 
  f'''
+ { '6' }
  -------------  
 |6{icon}           | 
 |   -------   | 
@@ -122,6 +130,7 @@ f'''
  -------------  
  ''', 
   f'''
+  { '7' }
  -------------  
 |7{icon}           | 
 |   -------   | 
@@ -137,6 +146,7 @@ f'''
  -------------  
  ''',
   f'''
+  { '8' }
  -------------  
 |8{icon}           | 
 |   -------   | 
@@ -152,6 +162,7 @@ f'''
  -------------  
  ''',
  f'''
+ { '9' }
  -------------  
 |9{icon}           | 
 |   -------   | 
@@ -167,6 +178,7 @@ f'''
  -------------  
  ''',  
  f'''
+ { '10' }
  -------------  
 |10{icon}          | 
 |   -------   | 
@@ -182,6 +194,7 @@ f'''
  -------------  
  ''',
  f'''
+ { 'Jack' }
  -------------  
 |J{icon}           | 
 |   -------   | 
@@ -197,6 +210,7 @@ f'''
  -------------  
  ''',
  f'''
+ { 'Queen' }
  -------------  
 |Q{icon}           | 
 |   -------   | 
@@ -212,6 +226,7 @@ f'''
  -------------  
  ''',
  f'''
+ { 'King' }
  -------------  
 |K{icon}           | 
 |   -------   | 
@@ -226,8 +241,9 @@ f'''
 |           {icon}K| 
  -------------  
  ''',
- f'''
-  ------------- 
+ f''' 
+  { 'Hidden' }
+  -------------
  | * * * * * * |
  |* * * * * * *|
  | * * * * * * |
@@ -239,9 +255,79 @@ f'''
  | * * * * * * |
  |* * * * * * *|
  |* * * * * * *|
-  ------------- 
- '''
+  -------------'''
 ]
-    print (Cards_art[rand])
-    
-card_display()
+    if (game == "y"):
+        rand1 = random.randrange(0,13)
+        rand2 = random.randrange(0,13)
+        print ("Player's Card: ")
+        card_1 = Cards_art[rand1].strip().splitlines()
+        card_2 = Cards_art[rand2].strip().splitlines()
+        # Print side-by-side
+        for card1, card2 in zip(card_1, card_2):
+            print(f"{card1} {card2}")
+        player_score += rand1+rand2
+        
+        print ("Computer's Card: ")
+        rand1 = random.randrange(0,13)
+        card_1 = Cards_art[rand1].strip().splitlines()
+        card_2 = Cards_art[13].strip().splitlines()
+        # Print side-by-side
+        for card1, card2 in zip(card_1, card_2):
+            print(f"{card1} {card2}")
+        computer_score += rand1
+        return player_score,computer_score
+    elif (game == "hit"):
+        rand = random.randrange(0,13)
+        print ("Player's Card: ")
+        card = Cards_art[rand].strip().splitlines()
+        for card in zip(card):
+            print(f"{card}")
+        if (player_score > 10 and rand == 0):
+            player_score += 1
+        else:
+            player_score += rand
+        
+        rand = random.randrange(0,13)
+        print ("Computer's Card: ")
+        card = Cards_art[rand].strip().splitlines()
+        for card in zip(card):
+            print(f"{card}")
+        computer_score += rand
+        return player_score,computer_score
+        
+    elif (game == "stand"):
+        rand = random.randrange(0,13)
+        print ("Computer's Card: ")
+        card = Cards_art[rand].strip().splitlines()
+        for card in zip(card):
+            print(f"{card}")
+        computer_score += rand
+        return player_score,computer_score
+        
+        
+print ("Welcome to the BlackJack - Card Game.")
+print ("Rules: Players compete against the Dealer(Computer) to get closer to 21 without going over.")
+
+start = input("Press 'y' to Play and 'n' to Quit. ").lower()
+if (start == "y"):
+    print (" Let's Play! ")
+    player_score,computer_score = draw_cards(start, 0,0)
+    print (f"Player Score: {player_score}\t\t\tDealer Score: {computer_score}")
+    while True:
+        choice = input("Player will 'Hit' or 'Stand': ").lower()
+        if (choice == "hit"):
+            system_clean()
+            player_score, computer_score = draw_cards(choice, player_score,computer_score)
+            print (f"Player Score: {player_score}\t\t\tDealer Score: {computer_score}")
+        elif (choice == "stand"):
+            system_clean()
+            player_score, computer_score = draw_cards(choice, player_score,computer_score)
+            print (f"Player Score: {player_score}\t\t\tDealer Score: {computer_score}")
+            
+        if (player_score == 21 and (player_score > computer_score or computer_score > 21)):
+            print ("Player Wins! ")
+        elif (player_score > 21):
+            print ("Player Busted! Dealer Wins! ")
+        elif (player_score < computer_score):
+            print ("Dealer Wins! ")

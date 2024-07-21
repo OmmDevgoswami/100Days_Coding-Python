@@ -14,21 +14,21 @@ LOGO = '''
       `------'                           |__/  
 '''
 #print(LOGO)
-# cards = {
-#     0 : 11,
-#     1 : 2,
-#     2 : 3,
-#     3 : 4,
-#     4 : 5,
-#     5 : 6,
-#     6 : 7,
-#     7 : 8,
-#     8 : 9,
-#     9 : 10,
-#     10 : 10,
-#     11 : 10,
-#     12 : 10
-# }
+cards = {
+    0 : 11,
+    1 : 2,
+    2 : 3,
+    3 : 4,
+    4 : 5,
+    5 : 6,
+    6 : 7,
+    7 : 8,
+    8 : 9,
+    9 : 10,
+    10 : 10,
+    11 : 10,
+    12 : 10
+}
 
 def draw_cards(game = "n" , player_score = 0, computer_score = 0):
     symbol = ["♠", "♦", "♥", "♣️"]
@@ -266,7 +266,7 @@ f'''
         # Print side-by-side
         for card1, card2 in zip(card_1, card_2):
             print(f"{card1} {card2}")
-        player_score += rand1+rand2
+        player_score += cards[rand1]+cards[rand2]
         
         print ("Computer's Card: ")
         rand1 = random.randrange(0,13)
@@ -275,34 +275,42 @@ f'''
         # Print side-by-side
         for card1, card2 in zip(card_1, card_2):
             print(f"{card1} {card2}")
-        computer_score += rand1
+        computer_score += cards[rand1]
         return player_score,computer_score
+    
     elif (game == "hit"):
         rand = random.randrange(0,13)
         print ("Player's Card: ")
         card = Cards_art[rand].strip().splitlines()
-        for card in zip(card):
-            print(f"{card}")
-        if (player_score > 10 and rand == 0):
+        for iter in card:
+            print(f"{iter}")
+        if (player_score > 11 and rand == 0):
             player_score += 1
         else:
-            player_score += rand
+            player_score += cards[rand]
         
         rand = random.randrange(0,13)
         print ("Computer's Card: ")
         card = Cards_art[rand].strip().splitlines()
-        for card in zip(card):
-            print(f"{card}")
-        computer_score += rand
+        for iter in card:
+            print(f"{iter}")
+        if (computer_score > 11 and rand == 0):
+            computer_score += 1
+        else:
+            computer_score += cards[rand]
         return player_score,computer_score
         
     elif (game == "stand"):
-        rand = random.randrange(0,13)
-        print ("Computer's Card: ")
-        card = Cards_art[rand].strip().splitlines()
-        for card in zip(card):
-            print(f"{card}")
-        computer_score += rand
+        if (computer_score <= 17):
+            rand = random.randrange(0,13)
+            print ("Computer's Card: ")
+            card = Cards_art[rand].strip().splitlines()
+            for iter in card:
+                print(f"{iter}")
+            if (computer_score > 11 and rand == 0):
+                computer_score += 1
+            else:
+                computer_score += cards[rand]     
         return player_score,computer_score
         
         
@@ -314,6 +322,7 @@ if (start == "y"):
     print (" Let's Play! ")
     player_score,computer_score = draw_cards(start, 0,0)
     print (f"Player Score: {player_score}\t\t\tDealer Score: {computer_score}")
+    
     while True:
         choice = input("Player will 'Hit' or 'Stand': ").lower()
         if (choice == "hit"):
@@ -324,10 +333,17 @@ if (start == "y"):
             system_clean()
             player_score, computer_score = draw_cards(choice, player_score,computer_score)
             print (f"Player Score: {player_score}\t\t\tDealer Score: {computer_score}")
-            
-        if (player_score == 21 and (player_score > computer_score or computer_score > 21)):
-            print ("Player Wins! ")
-        elif (player_score > 21):
-            print ("Player Busted! Dealer Wins! ")
-        elif (player_score < computer_score):
-            print ("Dealer Wins! ")
+        
+        if (computer_score > 11 and player_score > 11): 
+            if (player_score <= 21 and (player_score > computer_score or computer_score > 21)):
+                print ("Player Wins! ")
+                break
+            elif (player_score > 21):
+                print ("Player Busted! Dealer Wins! ")
+                break
+            elif (player_score == computer_score):
+                print ("It's a Draw! ")
+                break
+            elif (player_score < computer_score):
+                print ("Dealer Wins! ")
+                break

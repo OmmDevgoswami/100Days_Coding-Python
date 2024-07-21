@@ -13,7 +13,7 @@ LOGO = '''
       |  \/ K|                            _/ |                
       `------'                           |__/  
 '''
-#print(LOGO)
+print(LOGO)
 cards = {
     0 : 11,
     1 : 2,

@@ -13,7 +13,7 @@ LOGO = '''
       |  \/ K|                            _/ |                
       `------'                           |__/  
 '''
-print(LOGO)
+
 cards = {
     0 : 11,
     1 : 2,
@@ -31,6 +31,7 @@ cards = {
 }
 
 def draw_cards(game = "n" , player_score = 0, computer_score = 0):
+    """ To draw cards in different level of the Game """
     symbol = ["♠", "♦", "♥", "♣️"]
     icon = random.choice(symbol)
     Cards_art = [
@@ -258,6 +259,7 @@ f'''
   -------------'''
 ]
     if (game == "y"):
+        #Initial condition when the game starts
         rand1 = random.randrange(0,13)
         rand2 = random.randrange(0,13)
         print ("Player's Card: ")
@@ -279,6 +281,7 @@ f'''
         return player_score,computer_score
     
     elif (game == "hit"):
+        #When the player chooses "Hit" to draw cards
         rand = random.randrange(0,13)
         print ("Player's Card: ")
         card = Cards_art[rand].strip().splitlines()
@@ -301,6 +304,7 @@ f'''
         return player_score,computer_score
         
     elif (game == "stand"):
+        #When the player chooses "Stand" to hold on the same card without drawing.
         if (computer_score <= 17):
             rand = random.randrange(0,13)
             print ("Computer's Card: ")
@@ -312,38 +316,49 @@ f'''
             else:
                 computer_score += cards[rand]     
         return player_score,computer_score
-        
-        
-print ("Welcome to the BlackJack - Card Game.")
-print ("Rules: Players compete against the Dealer(Computer) to get closer to 21 without going over.")
 
-start = input("Press 'y' to Play and 'n' to Quit. ").lower()
-if (start == "y"):
-    print (" Let's Play! ")
-    player_score,computer_score = draw_cards(start, 0,0)
-    print (f"Player Score: {player_score}\t\t\tDealer Score: {computer_score}")
-    
-    while True:
-        choice = input("Player will 'Hit' or 'Stand': ").lower()
-        if (choice == "hit"):
-            system_clean()
-            player_score, computer_score = draw_cards(choice, player_score,computer_score)
-            print (f"Player Score: {player_score}\t\t\tDealer Score: {computer_score}")
-        elif (choice == "stand"):
-            system_clean()
-            player_score, computer_score = draw_cards(choice, player_score,computer_score)
-            print (f"Player Score: {player_score}\t\t\tDealer Score: {computer_score}")
+def play_game():        
+    print(LOGO)        
+    print ("Welcome to the BlackJack - Card Game.")
+    print ("Rules: Players compete against the Dealer(Computer) to get closer to 21 without going over.")
+
+    start = input("Press 'y' to Play and 'n' to Quit. ").lower()
+    if (start == "y"):
+        print (" Let's Play! ")
+        player_score,computer_score = draw_cards(start, 0,0)
+        print (f"Player Score: {player_score}\t\t\tDealer Score: {computer_score}")
         
-        if (computer_score > 11 and player_score > 11): 
-            if (player_score <= 21 and (player_score > computer_score or computer_score > 21)):
-                print ("Player Wins! ")
-                break
-            elif (player_score > 21):
-                print ("Player Busted! Dealer Wins! ")
-                break
-            elif (player_score == computer_score):
-                print ("It's a Draw! ")
-                break
-            elif (player_score < computer_score or computer_score == 21):
-                print ("Dealer Wins! ")
-                break
+        while True:
+            choice = input("Player will 'Hit' or 'Stand': ").lower()
+            if (choice == "hit"):
+                system_clean()
+                player_score, computer_score = draw_cards(choice, player_score,computer_score)
+                print (f"Player Score: {player_score}\t\t\tDealer Score: {computer_score}")
+            elif (choice == "stand"):
+                system_clean()
+                player_score, computer_score = draw_cards(choice, player_score,computer_score)
+                print (f"Player Score: {player_score}\t\t\tDealer Score: {computer_score}")
+            
+            if (computer_score > 11 and player_score > 11): 
+                if (player_score <= 21 and (player_score > computer_score or computer_score > 21)):
+                    print ("Player Wins! ")
+                    break
+                elif (player_score > 21):
+                    print ("Player Busted! Dealer Wins! ")
+                    break
+                elif (player_score == computer_score):
+                    print ("It's a Draw! ")
+                    break
+                elif (player_score < computer_score or computer_score == 21):
+                    print ("Dealer Wins! ")
+                    break          
+        loop = input("Press 'r' to restart or 'n' to Quit: ")           
+        if (loop == "r"):
+            system_clean()
+            play_game()
+        elif (loop == "n"):
+            print ("Thanks for Playing! ")
+    elif (start == "n"):
+        print ("Thanks for Playing! ")
+        
+play_game()        

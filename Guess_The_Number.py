@@ -26,6 +26,7 @@ Y8,        88  88       88  8PP"""""""   `"Y8ba,    `"Y8ba,            88       
 '''
 
 def play_game():
+    """" Run this to play the Game !! """
     print (LOGO)
     print ("Welcome to the Game !!\nTry to Guess a Randomly Generated Number Between '1' - '100' ")
     random_num = random.randint(1,100)

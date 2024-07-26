@@ -12,6 +12,7 @@ LOGO = '''
   \____|\___/ |_|  |_|   \___| \___| |_|  |_| \__,_| \___||_| |_||_||_| |_| \___|
   
 '''
+print (LOGO)
 
 
 MENU = {
@@ -19,6 +20,7 @@ MENU = {
         "ingredients": {
             "water": 50,
             "coffee": 18,
+            "milk" : 0
         },
         "cost": 120,
     },
@@ -40,22 +42,24 @@ MENU = {
     }
 }
 
-machine_money = 0
 
 resources = {
     "water": 300,
     "milk": 200,
     "coffee": 100,
-    "money": machine_money
+    "money": 0
 }
 
 
 def report():
+    """ Used to display the resources left. """
     for items in resources:
         print (f"{items} : {resources[items]}")
+    print()
     
 
 def addResources():
+    """ Add more resources to the Storage so more Coffee can be brewed """
     print ("Adding more resources....")
     for item in resources:
         if (item == "water"):
@@ -66,11 +70,13 @@ def addResources():
             resources[item] += 50
         elif (item == "money"):
             continue
+    print ("More Resources Added !!")
+    print ()
 
 
 def prepareCoffee(item):
+    """ Main Function used to Create Coffee """
     loop_breaker = True
-    global machine_money
     for ingredient in MENU[item]["ingredients"]:
         if ((resources["water"] == 0) or (resources["milk"] == 0) or (resources["coffee"] == 0)):
             print (f"Insufficient Resources!!\nYour {item} Couldn't be prepared.")
@@ -82,6 +88,7 @@ def prepareCoffee(item):
             while loop_breaker:
                 print ("Almost Done !!")
                 print ("Please Insert the Required Money: ")
+                print ("[#Leave the bills not used as empty field.]")
                 bill_1 = input("10  X ") or 0
                 bill_2 = input("20  X ") or 0
                 bill_3 = input("50  X ") or 0
@@ -96,20 +103,38 @@ def prepareCoffee(item):
                     print (f"Here's Your Change {money - MENU[item]['cost']}")
                     print (f"Preparing your {item}...")
                     print (f"Thanks for the wait !! Here's Your {item}\nHave a Nice Day Ahead !!")
-                    machine_money += MENU[item]['cost']
+                    print ()
+                    for items in resources:
+                        if (items == "water"):
+                            resources[items] -= MENU[item]["ingredients"]['water']
+                        elif (items == "milk"):
+                            resources[items] -= MENU[item]["ingredients"]['milk']
+                        elif (items == "coffee"):
+                            resources[items] -= MENU[item]["ingredients"]['coffee']
+                        elif (items == "money"):
+                            resources[items] += MENU[item]["cost"]
                     loop_breaker = False
                 elif (money == MENU[item]["cost"]):
                     print (f"Preparing your {item}...")
                     print (f"Thanks for the wait !! Here's Your {item}\nHave a Nice Day Ahead !!")
-                    machine_money += MENU[item]["cost"]
+                    print ()
+                    for items in resources:
+                        if (items == "water"):
+                            resources[items] -= MENU[item]["ingredients"]['water']
+                        elif (items == "milk"):
+                            resources[items] -= MENU[item]["ingredients"]['milk']
+                        elif (items == "coffee"):
+                            resources[items] -= MENU[item]["ingredients"]['coffee']
+                        elif (items == "money"):
+                            resources[items] += MENU[item]["cost"]
                     loop_breaker = False
+          
                     
-while True:     
-    print (LOGO)               
+while True:                    
     print ("    MENU    ")
     for i, n in enumerate(MENU) :
         print(f"{i+1} {n}")
-    print ("4 Report of Resources Left." )
+    print ("4 'Report' of Resources Left." )
     print ("5 Press 'off' to Stop the Machine." )
     
     coffee_choice = input("Choose Your Coffee ☕: ").lower()

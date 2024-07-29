@@ -11,4 +11,9 @@ for question_item in question_data:
     new_question = question(question_text, question_answer, question_trivia)
     question_resource.append(new_question)
     
-print (question_resource)
+
+quiz = quiz_brain(question_resource)    
+while quiz.question_check:
+    quiz.next_question()
+    
+    

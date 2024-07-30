@@ -21,6 +21,4 @@ for sides in range (3,11):
     print (f"Shape : {shapes[sides-3]} printed")    
         
     
-        
-     
 turtle.done()        

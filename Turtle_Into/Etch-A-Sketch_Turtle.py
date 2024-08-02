@@ -26,9 +26,16 @@ def clearScreen():
     
     
 screen.onkey(fun = moveForward, key = "w")
+screen.onkey(fun = moveForward, key = "Up")
+
 screen.onkey(fun = moveBackward, key = "s")
+screen.onkey(fun = moveBackward, key = "Down")
+
 screen.onkey(fun = rotateLeft, key = "a")
+screen.onkey(fun = rotateLeft, key = "Left")
+
 screen.onkey(fun = rotateRight, key = "d")
+screen.onkey(fun = rotateRight, key = "Right")
 
 screen.onkey(fun = clearScreen, key = "c")
 screen.listen()        

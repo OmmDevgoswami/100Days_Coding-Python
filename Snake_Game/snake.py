@@ -72,6 +72,9 @@ class Snake:
             self.head.setheading(LEFT)      
 
     def sizeIncrease(self):
+        """
+        Increase the Size of the Turtle Created.
+        """
         snake_body = turtle.Turtle(shape = "square")
         snake_body.color("white")
         snake_body.penup()

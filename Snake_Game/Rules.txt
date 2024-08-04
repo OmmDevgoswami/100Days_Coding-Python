@@ -1,0 +1,10 @@
+This is a Python Remake of our classic Snake Game.
+
+Rules:
+    *--Easy Mode--*
+        Snake Can Pass Through The Walls
+        Snake Will Die and It's a Game Over If The Snake Bites It's Own Tail.
+
+    *--Hard Mode--*
+        Snake Can't Pass Through The Walls and It's a Game Over If It Touches One.
+        Snake Will Die and It's a Game Over If The Snake Bites It's Own Tail.

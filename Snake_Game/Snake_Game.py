@@ -57,13 +57,13 @@ def Game(level:str):
         
         if level == "easy":
         #Pass Through The Wall    
-            if abs(new_snake.head.xcor()) > 350:
+            if abs(new_snake.head.xcor()) > (screen.window_width()/2 - 20):
                 new_snake.head.setx(new_snake.head.xcor() * -1)
-            if abs(new_snake.head.ycor()) > 350:
+            if abs(new_snake.head.ycor()) > (screen.window_height()/2 - 20):
                 new_snake.head.sety(new_snake.head.ycor() * -1)
         elif level == "hard":        
         #Die on Touching The Wall  
-            if abs(new_snake.head.xcor()) > 360 or abs(new_snake.head.ycor()) > 360:
+            if abs(new_snake.head.xcor()) > (screen.window_width()/2 - 20) or abs(new_snake.head.ycor()) > (screen.window_height()/2 - 20):
                 score.game_over()
                 flag = False
         

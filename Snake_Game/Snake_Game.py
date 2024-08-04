@@ -7,54 +7,76 @@ import scoreboard
 screen = turtle.Screen()
 screen.title("Snake Game")
 screen.bgcolor("black")
-screen.tracer(0)
 screen.setup(740, 740)
 
-new_snake = snake.Snake()
-new_food = food.Food()
-score = scoreboard.Scoreboard()
+def level_input(prompt_title:str , prompt_message:str):
+    """
+    Level Choice.
+    """
+    user_input = turtle.textinput(prompt_title, prompt_message)
+    while True:
+        if user_input is None or user_input.strip() == "":
+            user_input = turtle.textinput(prompt_title, prompt_message)
+        else:
+            return user_input
 
-screen.listen()
-#Keyboard Events
-screen.onkeypress(new_snake.up, "Up")
-screen.onkeypress(new_snake.up, "w")
+def Game(level:str):
+    """
+    Main Game Program
+    """
+    screen.tracer(0)
 
-screen.onkeypress(new_snake.down, "Down")
-screen.onkeypress(new_snake.down, "s")
+    new_snake = snake.Snake()
+    new_food = food.Food()
+    score = scoreboard.Scoreboard()
 
-screen.onkeypress(new_snake.left, "Left")
-screen.onkeypress(new_snake.left, "a")
+    screen.listen()
+    #Keyboard Events
+    screen.onkeypress(new_snake.up, "Up")
+    screen.onkeypress(new_snake.up, "w")
 
-screen.onkeypress(new_snake.right, "Right")
-screen.onkeypress(new_snake.right, "d")
+    screen.onkeypress(new_snake.down, "Down")
+    screen.onkeypress(new_snake.down, "s")
 
+    screen.onkeypress(new_snake.left, "Left")
+    screen.onkeypress(new_snake.left, "a")
 
-flag = True
-while flag:
-    screen.update()
-    time.sleep(0.1)
-    new_snake.move()
-    if new_snake.head.distance(new_food) < 15:
-        new_food.refreshFood()
-        score.increaseScore()
-        new_snake.sizeIncrease()
-    
-    #Die on Touching The Wall  
-    if abs(new_snake.head.xcor()) > 360 or abs(new_snake.head.ycor()) > 360:
-        score.game_over()
-        flag = False
+    screen.onkeypress(new_snake.right, "Right")
+    screen.onkeypress(new_snake.right, "d")
+
+    #Game Loop
+    flag = True
+    while flag:
+        screen.update()
+        time.sleep(0.1)
+        new_snake.move()
+        if new_snake.head.distance(new_food) < 15:
+            new_food.refreshFood()
+            score.increaseScore()
+            new_snake.sizeIncrease()
         
-    #Pass Through The Wall    
-    # if new_snake.head.xcor() > 350 or new_snake.head.xcor() < -350:
-    #     new_snake.head.setx(new_snake.head.xcor() * -1)
-    # if new_snake.head.ycor() > 350 or new_snake.head.ycor() < -350:
-    #     new_snake.head.sety(new_snake.head.ycor() * -1)
-    
-    for _ in new_snake.snake:
-        if _ == new_snake.head:
-            pass
-        elif (new_snake.head.distance(_) < 10):
-            score.game_over()
-            flag = False
+        if level == "easy":
+        #Pass Through The Wall    
+            if abs(new_snake.head.xcor()) > 350:
+                new_snake.head.setx(new_snake.head.xcor() * -1)
+            if abs(new_snake.head.ycor()) > 350:
+                new_snake.head.sety(new_snake.head.ycor() * -1)
+        elif level == "hard":        
+        #Die on Touching The Wall  
+            if abs(new_snake.head.xcor()) > 360 or abs(new_snake.head.ycor()) > 360:
+                score.game_over()
+                flag = False
+        
+        #Die if Touch Eatself        
+        for _ in new_snake.snake:
+            if _ == new_snake.head:
+                pass
+            elif (new_snake.head.distance(_) < 10):
+                score.game_over()
+                flag = False
+
+level = level_input("Difficulty level","Choose Game Difficulty\n\n1.Easy\n2.Hard").lower()
+Game(level)
+
        
-screen.exitonclick()
+turtle.done()

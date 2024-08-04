@@ -13,6 +13,7 @@ class Snake:
         self.snake = []
         self.create_Snake()
         self.head = self.snake[0]
+        self.tail = self.snake[len(self.snake) -1]
 
     def create_Snake(self):
         """
@@ -24,6 +25,7 @@ class Snake:
             snake_body.penup()
             snake_body.goto(y = 0, x =( _*-20))
             self.snake.append(snake_body)
+            
     
     def move(self):    
         """
@@ -69,5 +71,11 @@ class Snake:
         if self.head.heading() != RIGHT and self.snake[0].xcor() != self.snake[1].xcor() + 20:
             self.head.setheading(LEFT)      
 
-
-
+    def sizeIncrease(self):
+        snake_body = turtle.Turtle(shape = "square")
+        snake_body.color("white")
+        snake_body.penup()
+        head_position = self.tail.position()
+        snake_body.goto(head_position)
+        self.snake.insert(len(self.snake)-1, snake_body)
+        self.move()

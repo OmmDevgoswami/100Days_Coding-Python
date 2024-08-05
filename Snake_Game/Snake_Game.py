@@ -62,8 +62,18 @@ def Game(level:str):
             if abs(new_snake.head.ycor()) > (screen.window_height()/2 - 20):
                 new_snake.head.sety(new_snake.head.ycor() * -1)
         elif level == "hard":        
-        #Die on Touching The Wall  
-            if abs(new_snake.head.xcor()) > (screen.window_width()/2 - 20) or abs(new_snake.head.ycor()) > (screen.window_height()/2 - 20):
+        #Die on Touching The Wall
+            boarder = turtle.Turtle()
+            boarder.hideturtle()
+            boarder.penup()
+            boarder.goto(x = -screen.window_width()/2 + 7 , y = screen.window_height()/2 - 7)
+            boarder.pendown()
+            boarder.color("white")
+            for _ in range(4):
+                boarder.forward(screen.window_width() - 25)
+                boarder.right(90)
+            
+            if abs(new_snake.head.xcor()) > (screen.window_width()/2 - 9) or abs(new_snake.head.ycor()) > (screen.window_height()/2 - 9):
                 score.game_over()
                 flag = False
         
@@ -75,7 +85,7 @@ def Game(level:str):
                 score.game_over()
                 flag = False
 
-level = level_input("Difficulty level","Choose Game Difficulty\n\n1.Easy\n2.Hard").lower()
+level = level_input("Difficulty level","Choose Game Difficulty\n1.Easy\n2.Hard").lower()
 Game(level)
 
        

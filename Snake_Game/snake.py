@@ -4,6 +4,8 @@ UP = 90
 DOWN = 270
 LEFT = 180
 RIGHT = 0
+IMAGE_RESOURCE = ['Snake_Game\\snake_head_v.gif', 'Snake_Game\\snake_body_v.gif', 'Snake_Game\\snake_tail_v.gif']
+
 
 class Snake:
     """ 
@@ -19,12 +21,16 @@ class Snake:
         """
         Creation of Snake using Turtle Module
         """
+        shape = turtle.Screen()
         for _ in range(3):
-            snake_body = turtle.Turtle(shape = "square")
-            snake_body.color("white")
+            shape.addshape(IMAGE_RESOURCE[_])
+        
+        for _ in range(3):
+            snake_body = turtle.Turtle()
+            self.snake.append(snake_body)
+            snake_body.shape(IMAGE_RESOURCE[_])
             snake_body.penup()
             snake_body.goto(y = 0, x =( _*-20))
-            self.snake.append(snake_body)
             
     
     def move(self):    
@@ -75,10 +81,11 @@ class Snake:
         """
         Increase the Size of the Turtle Created.
         """
-        snake_body = turtle.Turtle(shape = "square")
-        snake_body.color("white")
+        snake_body = turtle.Turtle()
+        snake_body.shape(IMAGE_RESOURCE[1])
         snake_body.penup()
         head_position = self.tail.position()
         snake_body.goto(head_position)
         self.snake.insert(len(self.snake)-1, snake_body)
         self.move()
+        

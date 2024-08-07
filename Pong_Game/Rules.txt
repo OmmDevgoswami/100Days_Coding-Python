@@ -1,0 +1,10 @@
+This is Python remake of the classical Pong Game.
+
+Basic Controls
+- Player 1(Left Paddle): 
+        -- 'w' keys: Move up.
+        -- 's' keys: Move down.
+
+- Player 2(Right Paddle): 
+        -- 'UP' keys: Move up.
+        -- 'DOWN' keys: Move down.

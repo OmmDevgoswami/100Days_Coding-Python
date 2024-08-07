@@ -17,7 +17,7 @@ screen.tracer(0)
 right_paddle = paddle.Paddle((screen.window_width()/2 - 50, 0))
 left_paddle = paddle.Paddle((-screen.window_width()/2 + 50, 0))
 game_ball = ball.Ball()
-game_resources = boarder.Baorder()
+game_resources = boarder.Boarder()
 right_score =  score.Score(30, screen.window_height()/2 - 50)
 left_score = score.Score(-45, screen.window_height()/2 - 50)
 

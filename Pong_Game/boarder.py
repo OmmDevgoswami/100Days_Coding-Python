@@ -1,6 +1,9 @@
 import turtle
 
-class Baorder(turtle.Turtle):
+class Boarder(turtle.Turtle):
+    """
+    To Create a Boarder Object by inherting Turtle MOdule.
+    """
     def __init__(self):
         super().__init__()
         self.color("white")
@@ -12,6 +15,9 @@ class Baorder(turtle.Turtle):
         
         
     def draw_boarder(self):
+        """
+        Function to create a boarder around the game, and a partition in-between.
+        """
         self.screen = turtle.Screen()
         self.penup()
         self.goto(x = -(self.x)/2 - 10 , y = (self.y)/2 - 2)

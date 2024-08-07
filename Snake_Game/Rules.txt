@@ -1,5 +1,11 @@
 This is a Python Remake of our classic Snake Game.
 
+Basic Controls
+- 'w' or 'UP' key: Move Up
+- 's' or 'DOWN' key: Move Down
+- 'a' or 'LEFT' key: Move Left
+- 'd' or 'RIGHT' key: Move Right
+
 Rules:
     *--Easy Mode--*
         Snake Can Pass Through The Walls
@@ -8,3 +14,7 @@ Rules:
     *--Hard Mode--*
         Snake Can't Pass Through The Walls and It's a Game Over If It Touches One.
         Snake Will Die and It's a Game Over If The Snake Bites It's Own Tail.
+
+Credits:
+All Art Credits goes to ORXA
+https://bit.ly/ORXA_Arts

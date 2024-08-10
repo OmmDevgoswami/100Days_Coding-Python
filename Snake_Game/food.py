@@ -20,8 +20,8 @@ class Food(turtle.Turtle):
         Change the position of the food when Snake eats the previous one.
         """
         self.screen = turtle.Screen()
-        self.x_position = random.randrange(-int(self.screen.window_width() / 2 - 20), int(self.screen.window_width() / 2 - 20))
-        self.y_position = random.randrange(-int(self.screen.window_height() / 2 - 20), int(self.screen.window_height() / 2 - 20))
+        self.x_position = random.randrange(-int(self.screen.window_width() / 2 - 40), int(self.screen.window_width() / 2 - 40))
+        self.y_position = random.randrange(-int(self.screen.window_height() / 2 - 40), int(self.screen.window_height() / 2 - 40))
         self.goto(x = self.x_position ,y = self.y_position) 
         
         

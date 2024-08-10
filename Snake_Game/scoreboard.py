@@ -6,11 +6,16 @@ class Scoreboard(turtle.Turtle):
     """
     Creation of Score by inheritance of Turtle Module
     """
-    def __init__(self, new_Score = 0):
+    def __init__(self, level):
         super().__init__()
         self.score = 0
-        self.highscore = 0
-        self.restart(new_Score)
+        with open(f"Snake_Game\\{level}HighScore.txt", mode = "r") as file:
+                    self.new_score = file.read()
+                    if self.new_score:
+                        self.highscore = int(self.new_score)
+                    else:
+                        self.highscore = 0
+        # self.restart(new_Score)
         self.penup()
         self.screen = turtle.Screen()
         self.color("gold")
@@ -23,7 +28,7 @@ class Scoreboard(turtle.Turtle):
         """
         Updating the Score
         """
-        self.write (f"Score: {self.score}   High Score: {self.highscore}" ,align = ALIGNMENT ,font = FONT)
+        self.write (f"Score: {self.score}  HighScore: {self.highscore}" ,align = ALIGNMENT ,font = FONT)
         
     def increaseScore(self):
         """

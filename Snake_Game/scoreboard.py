@@ -15,7 +15,6 @@ class Scoreboard(turtle.Turtle):
                         self.highscore = int(self.new_score)
                     else:
                         self.highscore = 0
-        # self.restart(new_Score)
         self.penup()
         self.screen = turtle.Screen()
         self.color("gold")
@@ -44,10 +43,4 @@ class Scoreboard(turtle.Turtle):
         """
         self.home()
         self.write(" Game Over!! ", align = ALIGNMENT, font = FONT)
-    
-    def restart(self, new_score):
-        self.penup()
-        if new_score > self.highscore:
-            self.highscore = new_score
-        self.score = 0
         

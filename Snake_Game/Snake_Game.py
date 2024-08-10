@@ -21,7 +21,21 @@ def level_input(prompt_title:str , prompt_message:str):
             return user_input 
 
 
-def second_chance(level:str):        
+def highScore_update(level, current_score):
+    """
+    Function to Read and Update the New HighScore as per the games
+    """
+    with open(f"Snake_Game\\{level}HighScore.txt", mode = "r+") as file:
+        high_score = file.read()
+        if int(high_score) < current_score:           
+            with open(f"Snake_Game\\{level}HighScore.txt", mode = "w") as file:
+                    file.write(str(current_score))
+
+
+def second_chance(level:str):    
+    """
+    Function to Restart ot End the Game
+    """    
     restart_n_exit = turtle.textinput("Restart or Exit?", "Press 'r' to restart and 'e' to exit.").lower()
     if restart_n_exit == "r":
         screen.clearscreen()
@@ -99,13 +113,10 @@ def Game(level:str):
                 flag = False
                 current_score = game_score.score
                 
-    
-    with open(f"Snake_Game\\{level}HighScore.txt", mode = "r+") as file:
-        high_score = file.read()
-        if int(high_score) < current_score:           
-            with open(f"Snake_Game\\{level}HighScore.txt", mode = "w") as file:
-                    file.write(str(current_score))
- 
+    #To Read and Update the New HighScore as per the games
+    highScore_update(level, current_score)
+                    
+    #To call the second_chance function after 5secs
     screen.ontimer(lambda : second_chance(level), 5000)
             
        

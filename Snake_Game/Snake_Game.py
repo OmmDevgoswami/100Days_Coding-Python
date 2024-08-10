@@ -18,17 +18,28 @@ def level_input(prompt_title:str , prompt_message:str):
         if user_input is None or user_input.strip() == "":
             user_input = turtle.textinput(prompt_title, prompt_message)
         else:
-            return user_input
+            return user_input 
 
-def Game(level:str):
+
+def second_chance(level:str, new_Score:int):        
+    restart_n_exit = turtle.textinput("Restart or Exit?", "Press 'r' to restart and 'e' to exit.").lower()
+    if restart_n_exit == "r":
+        screen.clearscreen()
+        Game(level, new_Score)
+    elif restart_n_exit == "e":
+        screen.bye()
+       
+
+def Game(level:str, high_score:int = 0):
     """
     Main Game Program
     """
+    screen.bgcolor("black")
     screen.tracer(0)
 
     new_snake = snake.Snake()
     new_food = food.Food()
-    score = scoreboard.Scoreboard()
+    game_score = scoreboard.Scoreboard(high_score)
 
     screen.listen()
     #Keyboard Events
@@ -52,7 +63,7 @@ def Game(level:str):
         new_snake.move()
         if new_snake.head.distance(new_food) < 15:
             new_food.refreshFood()
-            score.increaseScore()
+            game_score.increaseScore()
             new_snake.sizeIncrease()
         
         if level == "easy":
@@ -74,17 +85,23 @@ def Game(level:str):
                 boarder.right(90)
             
             if abs(new_snake.head.xcor()) > (screen.window_width()/2 - 9) or abs(new_snake.head.ycor()) > (screen.window_height()/2 - 9):
-                score.game_over()
+                game_score.game_over()
                 flag = False
+                high_score = game_score.score
         
         #Die if Touch Eatself        
         for _ in new_snake.snake:
             if _ == new_snake.head:
                 pass
             elif (new_snake.head.distance(_) < 10):
-                score.game_over()
+                game_score.game_over()
                 flag = False
-
+                high_score = game_score.score
+    
+                
+    screen.ontimer(lambda : second_chance(level, high_score), 5000)
+            
+       
 level = level_input("Difficulty level","Choose Game Difficulty\n1.Easy\n2.Hard").lower()
 Game(level)
 

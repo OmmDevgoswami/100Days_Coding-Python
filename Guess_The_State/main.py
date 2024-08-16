@@ -23,6 +23,7 @@ while flag:
         score += 1
         state_name.goto(x = new_location["Latitude"].item(), y = new_location["Longitude"].item())
         state_name.write(new_location["State"].item())
+        all_states.remove(guess)
     guess = screen.textinput(f"{score}/29 Guessed Correctly","Enter The Name of the Next State ?").title()
     if score > 28:
         flag = False

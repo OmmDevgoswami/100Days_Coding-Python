@@ -4,10 +4,10 @@ import pandas
 screen = turtle.Screen()
 screen.title("Guess The Indian State")
 screen.setup(width = 650, height = 700)
-screen.addshape("Guess_The_State\\Indian_Map.gif")
-turtle.shape("Guess_The_State\\Indian_Map.gif")
+screen.addshape("Map Game\\Indian_Map.gif")
+turtle.shape("Map Game\\Indian_Map.gif")
 
-location = pandas.read_csv("Guess_The_State\\Indian_states.csv")
+location = pandas.read_csv("Map Game\\Indian_states.csv")
 all_states = location["State"].to_list()
 
 guess = screen.textinput("Guess The State","Enter The Name of the Next State ?").title()

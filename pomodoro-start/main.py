@@ -18,11 +18,12 @@ LONG_BREAK_MIN = 20
 # ---------------------------- UI SETUP ------------------------------- #
 screen = Tk()
 screen.minsize(width = 500, height = 500)
-screen.config(padx = 20, pady = 20, bg = YELLOW)
+screen.config(padx = 20, pady = 120, bg = YELLOW)
 
 canvas = Canvas(width = 200, height = 224, bg = YELLOW, highlightthickness = 0)
-tomato = PhotoImage(file = "pomodoro-start\\tomato.png")
+tomato = PhotoImage(file = "pomodoro-start\\tomato.gif")
 canvas.create_image(100, 112, image = tomato)
-canvas.create_text(100, 112, text = "00:00", font =(FONT_NAME, 35, "bold"))
+canvas.create_text(100, 130, text = "00:00", font =(FONT_NAME, 35, "bold"))
+canvas.pack()
 
 screen.mainloop()

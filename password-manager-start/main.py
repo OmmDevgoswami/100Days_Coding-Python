@@ -18,7 +18,24 @@ font_path_1 = "password-manager-start\\Font\\Fjalla_One\\FjallaOne-Regular.ttf"
 FONT_1 = font.Font(family="Fjalla One", size=14)
 font_path_2 = "password-manager-start\\Font\\Hammersmith_One\\HammersmithOne-Regular.ttf"
 FONT_2 = font.Font(family="Hammersmith One", size=14)
+
 # ---------------------------- SAVER-SCREEN SETUP ------------------------------- #
+def confirm_page():
+    saver = Toplevel(screen)
+    saver.minsize(width=600, height=100)
+    saver.config(padx=10, pady=10, bg=YELLOW)
+    saver.title("Value Recorded Prompt")
+    
+    prompt = Label(saver, text="Information Recorded Successfully!!", font=FONT_1, bg=YELLOW, fg=PINK)
+    prompt.pack(pady=10)
+
+    def quit():
+        saver.destroy()
+
+    saver_button = Button(saver, text="Confirm", font=FONT_2, highlightthickness=0, bd=0, bg=YELLOW, fg=RED, width=10, relief=RAISED, command=quit)
+    saver_button.pack(pady=10)
+    
+    print("Information Recorded Successfully!!!")
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -39,14 +56,17 @@ def save():
             "Password":[password]
         }
     new_data = pandas.DataFrame(Data)
-    new_data.to_csv("password-manager-start\\Deatils.csv",mode='a', header=False)
+    new_data.to_csv("password-manager-start\\Deatils.csv",mode='a', header=False, index=False)
+    
+    confirm_page()
     
     website_entry.delete(0, END)
     email_entry.delete(0, END)
     user_entry.delete(0,END)
-    password_entry.delete(0,END)
-    print("Value Recorded Successfully!!!")
+    password_entry.delete(0,END)  
+      
     website_entry.focus()
+
     
 # ---------------------------- UI SETUP ------------------------------- #
 canvas =  Canvas(width=300, height=200, highlightthickness=0, bg= YELLOW)
@@ -79,6 +99,5 @@ pass_generator.grid(row = 5, column = 2)
 
 add_button = Button(text = "Record", font = FONT_2, highlightthickness = 0,bd = 0, bg = YELLOW, fg = RED, width = 40, relief=RAISED, command = save)
 add_button.grid(row = 6, column = 1, columnspan=3)
-
 
 screen.mainloop()

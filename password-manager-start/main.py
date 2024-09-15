@@ -3,6 +3,7 @@ from tkinter import font
 from tkinter import messagebox
 import random
 import pandas
+import pyperclip
 
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -40,6 +41,30 @@ def confirm_page():
     print("Information Recorded Successfully!!!")
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+def pass_gen():
+    password_entry.delete(0, END)
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+    nr_letters = random.randint(8, 10)
+    nr_numbers = random.randint(2, 4)
+    nr_symbols = random.randint(2, 4)
+    
+    password_list = []
+    
+    for i in range(0,nr_letters):
+        password_list.append(random.choice(letters))
+    for i in range(0, nr_numbers):
+        password_list.append(random.choice(numbers))
+    for i in range(0,nr_symbols):
+        password_list.append(random.choice(symbols))
+        
+    random.shuffle(password_list)
+    
+    password = "".join(password_list)
+    password_entry.insert(0, password)
+    pyperclip.copy(password)
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save():
@@ -99,7 +124,7 @@ password_label = Label(text="Password: ",font = FONT_1, bg = YELLOW, fg = PINK)
 password_label.grid(row=5, column=0,sticky = "e")
 password_entry = Entry(width = 25, font = FONT_2, bg = GRAY, fg = VIOLET)
 password_entry.grid(row=5, column=1,columnspan=2, sticky= "w")
-pass_generator = Button(text = "Generate", font = FONT_2, highlightthickness = 0,bd = 0, bg = YELLOW, fg = RED,width = 10, relief=RAISED)
+pass_generator = Button(text = "Generate", font = FONT_2, highlightthickness = 0,bd = 0, bg = YELLOW, fg = RED,width = 10, relief=RAISED, command = pass_gen)
 pass_generator.grid(row = 5, column = 2)
 
 add_button = Button(text = "Record", font = FONT_2, highlightthickness = 0,bd = 0, bg = YELLOW, fg = RED, width = 40, relief=RAISED, command = save)

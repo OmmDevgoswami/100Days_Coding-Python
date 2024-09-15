@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter import font
+from tkinter import messagebox
+import random
 import pandas
 
 PINK = "#e2979c"
@@ -46,26 +48,29 @@ def save():
     user = user_entry.get()
     password = password_entry.get()
     
-    with open("password-manager-start\\Details.txt", 'a') as file:
-        file.write(f"\n{website} | {email} | {user} | {password}")
-    
-    Data = {
-            "Website":[website],
-            "Email":[email],
-            "User":[user],
-            "Password":[password]
-        }
-    new_data = pandas.DataFrame(Data)
-    new_data.to_csv("password-manager-start\\Deatils.csv",mode='a', header=False, index=False)
-    
-    confirm_page()
-    
-    website_entry.delete(0, END)
-    email_entry.delete(0, END)
-    user_entry.delete(0,END)
-    password_entry.delete(0,END)  
-      
-    website_entry.focus()
+    if len(website) == 0 or len(email) == 0 or len(user) == 0 or len(password) == 0:
+        messagebox.showwarning(title = "Warning !!", message = "Please don't leave Field Empty!!")
+    else:
+        with open("password-manager-start\\Details.txt", 'a') as file:
+            file.write(f"\n{website} | {email} | {user} | {password}")
+        
+        Data = {
+                "Website":[website],
+                "Email":[email],
+                "User":[user],
+                "Password":[password]
+            }
+        new_data = pandas.DataFrame(Data)
+        new_data.to_csv("password-manager-start\\Deatils.csv",mode='a', header=False, index=False)
+        
+        confirm_page()
+            
+        website_entry.delete(0, END)
+        email_entry.delete(0, END)
+        user_entry.delete(0,END)
+        password_entry.delete(0,END)  
+            
+        website_entry.focus()
 
     
 # ---------------------------- UI SETUP ------------------------------- #

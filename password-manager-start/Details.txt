@@ -1,1 +1,2 @@
 Website| Email | Username | Password
+Dummy Site | dummy.email@gmail.com | New_User | Uw9M6thbK!0+I*l&6

@@ -4,6 +4,7 @@ from tkinter import messagebox
 import random
 import pandas
 import pyperclip
+import json
 
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -65,6 +66,23 @@ def pass_gen():
     password = "".join(password_list)
     password_entry.insert(0, password)
     pyperclip.copy(password)
+    
+# ---------------------------- PASSWORD RECORD ------------------------------- #
+def password_record():
+    website_value = website_entry.get()
+    try:
+        with open("password-manager-start\Details.json","r") as file:
+            data = json.load(file)
+    except (FileNotFoundError, json.decoder.JSONDecodeError):
+        messagebox.showerror(title="File Not available",message="No such Data File Found !! Please check the name.")
+        print("No such Data File Found !! Please check the name.")
+        return
+
+    if website_value in data:
+        messagebox.showinfo(title="Information", message = data[website_value])
+    else:
+        messagebox.showerror(title="Error", message="Info of No Such Website is Found")
+                
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save():
@@ -72,6 +90,11 @@ def save():
     email = email_entry.get()
     user = user_entry.get()
     password = password_entry.get()
+    data_Format = {website: {
+        "Username" : user, 
+        "Email" : email,
+        "Password" : password
+    }}
     
     if len(website) == 0 or len(email) == 0 or len(user) == 0 or len(password) == 0:
         messagebox.showwarning(title = "Warning !!", message = "Please don't leave Field Empty!!")
@@ -87,14 +110,27 @@ def save():
             }
         new_data = pandas.DataFrame(Data)
         new_data.to_csv("password-manager-start\\Deatils.csv",mode='a', header=False, index=False)
-        
-        confirm_page()
+        try:
+            with open("password-manager-start\\Details.json", "r") as file:
+                """Reading the json file"""
+                data = json.load(file)
+        except (FileNotFoundError, json.decoder.JSONDecodeError):
+            data = data_Format
+        else:
+            """Update with the new Data"""
+            data.update(data_Format)
+
+        with open("password-manager-start\\Details.json", "w") as file:
+            """Saving the Updated Data"""
+            json.dump(data, file, indent=4)
             
+        confirm_page()
+                
         website_entry.delete(0, END)
         email_entry.delete(0, END)
         user_entry.delete(0,END)
         password_entry.delete(0,END)  
-            
+                
         website_entry.focus()
 
     
@@ -108,7 +144,9 @@ website_label = Label(text="Website: ",font = FONT_1,bg = YELLOW, fg = PINK)
 website_label.grid(row=2, column=0, sticky = "e")
 website_entry = Entry(width = 35, font = FONT_2, bg = GRAY, fg = VIOLET)
 website_entry.focus()
-website_entry.grid(row=2, column=1, columnspan=2, sticky = "w")
+website_entry.grid(row=2, column=1, columnspan=1, sticky = "w")
+search_result = Button(text = "Search", font = FONT_2, highlightthickness = 0,bd = 0, bg = YELLOW, fg = RED,width = 10, relief=RAISED, command = password_record)
+search_result.grid(row = 2, column = 2)
 
 email_label = Label(text="Email: ",font = FONT_1, bg = YELLOW, fg = PINK)
 email_label.grid(row=3, column=0, sticky = "e")

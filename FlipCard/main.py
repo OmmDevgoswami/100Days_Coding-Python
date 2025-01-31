@@ -63,6 +63,8 @@ def getStarted(choice):
             canvas.itemconfig(Language_title, text="Congratulations!", fill="black")
             canvas.itemconfig(Words, text="You’ve practiced all words!", fill="black")
             canvas.itemconfig(canvas_image, image=dashboard)
+            correct.config(state=DISABLED)
+            wrong.config(state=DISABLED)
             return
         
         while True:

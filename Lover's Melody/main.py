@@ -4,7 +4,7 @@ import datetime as dt
 import json
 
 MY_MAIL = "	rizzingyouheart@gmail.com"
-MY_PASSWORD = "gphc zikf flle xbf"
+MY_PASSWORD = "mirc yvzb ktey xgll"
 RECIEVER_ADD = ["ommdevgoswami01@gmail.com", "ommdevgoswami@yahoo.com"]
 
 LETTERS_FILE = "Lover's Melody\\letters.json"
@@ -26,14 +26,28 @@ if letters:
         json.dump(letters, file)
     
     finalLetter = format + letterChoice
+    message = ""
     with open(finalLetter, "r", encoding='utf-8') as poem:
         content = poem.readlines()
-        print(content)
-
-    print("Remaining letters:", letters)
-    print("Sent letters:", sent)
+        subject = content[0].strip()  
+        message = "".join(content[1:])   
+        # print(message)
     
-    
+    for email in RECIEVER_ADD:
+        with smtplib.SMTP("smtp.gmail.com", port=587) as loveMelody:
+            loveMelody.starttls()
+            loveMelody.login(user=MY_MAIL, password=MY_PASSWORD)
+            loveMelody.sendmail(from_addr=MY_MAIL,
+                                to_addrs=email,
+                                msg=f"Subject: {subject}\n\n{message}")
+    print("Successfully Sent")
     
 else:
-    print("No letters available")
+    for email in RECIEVER_ADD:
+        with smtplib.SMTP("smtp.gmail.com", port=587) as loveMelody:
+            loveMelody.starttls()
+            loveMelody.login(user=MY_MAIL, password=MY_PASSWORD)
+            loveMelody.sendmail(from_addr=MY_MAIL,
+                                to_addrs=email,
+                                msg=f"Subject: Words of Heart\n\nI Love You")
+    print("Successfully Sent")

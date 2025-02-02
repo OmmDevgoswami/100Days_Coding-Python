@@ -5,7 +5,7 @@ import json
 
 MY_MAIL = "	rizzingyouheart@gmail.com"
 MY_PASSWORD = "mirc yvzb ktey xgll"
-RECIEVER_ADD = ["ommdevgoswami01@gmail.com", "ommdevgoswami@yahoo.com"]
+RECIEVER_ADD = ["ritusnehanayak@gmail.com", "ommdevgoswami01@gmail.com", "ommdevgoswami@yahoo.com"]
 
 LETTERS_FILE = "Lover's Melody\\letters.json"
 with open(LETTERS_FILE, "r", encoding="utf-8") as file:

@@ -1,9 +1,12 @@
+#Guide Link : https://medium.com/@ManHay_Hong/how-to-create-a-telegram-bot-and-send-messages-with-python-4cf314d9fa3e
 import requests
 import datetime as dt
 
 API_ENDPOINT = "http://api.weatherapi.com/v1/forecast.json" #Forecast Weather
 KEY = "fed9cc83b6b241a380c185639250502"
 LOCATION = "Bhubaneswar"
+TELEGRAM_API = "8173128774:AAHqFKqHH-mYQgAGD3L0ykwznAPVHL7UKEw"
+BOT_ID = "1321170001"
 
 PARAMETER = {
     "key" : KEY,
@@ -34,6 +37,16 @@ hourCheck = time.hour
 futureHour = hourCheck + 12
 # print(hourCheck)
 
+def telegram_bot_sendtext(bot_message):
+    
+    bot_token = TELEGRAM_API
+    bot_chatID = BOT_ID
+    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
+
+    response = requests.get(send_text)
+
+    return response.json()
+
 prev_condition = None
 start_time = None
 
@@ -43,14 +56,17 @@ for i in range(hourCheck, futureHour + 1):
     if currentWeather["forecast"]["forecastday"][0]["hour"][i]["will_it_rain"] == 1:
         print(f"The Sky seems {sky_condition} at {time_check}:00 hours")
         print("Rain expected !! Be Sure to Carry an Umbrella Please !!")
+        telegram_bot_sendtext(f"""The Sky seems {sky_condition} at {time_check}:00 hours\nRain expected !! Be Sure to Carry an Umbrella Please !!""")
     else:
         if prev_condition is None:
             prev_condition = sky_condition
             start_time = time_check
         elif sky_condition != prev_condition:
             print(f"The Sky seems {prev_condition} from {start_time}:00 to {time_check - 1}:00 hours. Have a great day!")
+            telegram_bot_sendtext(f"The Sky seems {prev_condition} from {start_time}:00 to {futureHour}:00 hours. Have a great day!")
             prev_condition = sky_condition
             start_time = time_check
 
 if prev_condition:
     print(f"The Sky seems {prev_condition} from {start_time}:00 to {futureHour}:00 hours. Have a great day!")
+    telegram_bot_sendtext(f"The Sky seems {prev_condition} from {start_time}:00 to {futureHour}:00 hours. Have a great day!")

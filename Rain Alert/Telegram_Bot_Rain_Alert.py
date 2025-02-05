@@ -1,12 +1,16 @@
 #Guide Link : https://medium.com/@ManHay_Hong/how-to-create-a-telegram-bot-and-send-messages-with-python-4cf314d9fa3e
 import requests
 import datetime as dt
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 API_ENDPOINT = "http://api.weatherapi.com/v1/forecast.json" #Forecast Weather
 KEY = "fed9cc83b6b241a380c185639250502"
 LOCATION = "Bhubaneswar"
-TELEGRAM_API = "8173128774:AAHqFKqHH-mYQgAGD3L0ykwznAPVHL7UKEw"
-BOT_ID = "1321170001"
+telegram_api = os.getenv("TELEGRAM_API")
+botID = os.getenv("BOT_ID")
 
 PARAMETER = {
     "key" : KEY,
@@ -39,8 +43,8 @@ futureHour = hourCheck + 12
 
 def telegram_bot_sendtext(bot_message):
     
-    bot_token = TELEGRAM_API
-    bot_chatID = BOT_ID
+    bot_token = telegram_api
+    bot_chatID = botID
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
 
     response = requests.get(send_text)

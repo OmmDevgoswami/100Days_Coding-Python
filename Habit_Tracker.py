@@ -15,8 +15,8 @@ PIXELA_USER = {
     "notMinor" : "yes"
 }
 
-newUser = requests.post(url = "https://pixe.la/v1/users", json = PIXELA_USER)
-print(newUser.text)
+# newUser = requests.post(url = "https://pixe.la/v1/users", json = PIXELA_USER)
+# print(newUser.text)
 ### For User Creation : One Time Process
 
 GRAPH_DATA = {
@@ -28,8 +28,8 @@ GRAPH_DATA = {
     "timezone": "Asia/Kolkata"
 }
     
-createGraph = requests.post(url = f"https://pixe.la/v1/users/{USER}/graphs", json = GRAPH_DATA, headers = AUTHENTICATION)
-print(createGraph.text)
+# createGraph = requests.post(url = f"https://pixe.la/v1/users/{USER}/graphs", json = GRAPH_DATA, headers = AUTHENTICATION)
+# print(createGraph.text)
 ### For Graph Creation : One Time Process
 
 def pixelaCount(count):
@@ -57,16 +57,21 @@ def dailyRecorder():
         else:
             print(f"Woahh!! That's fabulous!! You have coded for {count} hours today!!")
             pixelaCount(count)
-            print("See you tomorrow!!")
-            break
-        
-        ### Multiple Same Day Entry leads to overwriting the previous entry: Premium needed
-            # cont = input("Do you want to add more hours? (Y/N) ").lower()
-            # if cont == "y":
-            #     count = int(input("How many hours did you code today? ")) 
-            # else:
-            #     print("Great Job Buddy!! See you tomorrow!!")
-            #     break
+            cont = input("Do you want to add more hours? (Y/N) ").lower()
+            if cont == "y":
+                today = dt.datetime.today()
+                datePattern = today.strftime("%Y%m%d")
+                getCurrent = requests.get(url = f"https://pixe.la//v1/users/{USER}/graphs/graph01/{datePattern}", headers = AUTHENTICATION)
+                getCurrent.raise_for_status()
+                curValue = getCurrent.json()
+                count = int(input("How many hours did you code today? ")) 
+                updateVal = int(curValue["quantity"]) + count
+                check = requests.put(url=f"https://pixe.la/v1/users/{USER}/graphs/graph01/{datePattern}", json={"quantity": str(updateVal)}, headers=AUTHENTICATION)
+                print(check.text)
+                print("Updated Successfully!!")
+            else:
+                print("Great Job Buddy!! See you tomorrow!!")
+                break
             
     
 dailyRecorder()

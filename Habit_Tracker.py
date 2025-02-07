@@ -1,3 +1,6 @@
+"""ALERT NOTE:  The API might not work as expected always. It has a 25% chance of success on each call. So 'updation' function added below might have some bugs.
+Repeated calls might work. But it is not guaranteed. So, please be patient and try again later if it doesn't work. Thank you!!"""
+
 import requests
 import datetime as dt
 

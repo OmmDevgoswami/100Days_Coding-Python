@@ -1,8 +1,12 @@
 import requests
 import datetime as dt
+import os
+from dotenv import load_dotenv
 
-APP_ID = "e647af25"
-EXERCISE_KEY = "0fd018293b878a7ef8617d9ba6179b78"
+load_dotenv()
+
+APP_ID = os.getenv("NURTIONIX_APP_ID")
+EXERCISE_KEY = os.getenv("NURTIONIX_KEY")
 API_ENDPOINT = "https://trackapi.nutritionix.com/v2/natural/exercise"
 SHEETY_API = "https://api.sheety.co/f50c3ef24829fd6933e9ea5e8e6fcaa5/copyOfMyWorkouts/workouts"
 
@@ -42,7 +46,7 @@ Update_Details = {
 }
 
 AUTHENTICATION ={
-    "Authorization" : "Bearer password0103Omm",
+    "Authorization" : os.getenv("SHEETY_TOKEN"),
     "Content-Type" : "application/json"
 }
 

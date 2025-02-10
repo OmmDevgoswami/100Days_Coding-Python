@@ -22,12 +22,12 @@ SHEETY_ENDPOINT = "https://api.sheety.co/f50c3ef24829fd6933e9ea5e8e6fcaa5/flight
 AMADEUS_ENDPOINT = "https://test.api.amadeus.com/v2/shopping/flight-offers"
 
 AUTHENTICATION = {
-    "Authorization": os.getenv("SHEETY_AUTH"),
+    "Authorization": os.getenv("SHEETY_TOKEN"),
     "Content-Type": "application/json"
 }
 
-API_KEY =  os.getenv("AMADEUS_KEY")
-API_SECRET = os.getenv("AMADEUS_SECRET")
+API_KEY =  os.getenv("AMAEDUS_API_KEY")
+API_SECRET = os.getenv("AMAEDUS_SCERET")
 
 MY_LOCATION_IATA = "CCU"
 CURRENCY = "INR"
@@ -58,7 +58,7 @@ for destination in sheetData:
     RADIUS_AMOUNT = destination["price"]
     print(f"\nChecking flights for: {destination['city']} ({DESTINATION_IATA})")
 
-    for days in range(1, 5):
+    for days in range(1, 31):
         departure_date = (start_date + dt.timedelta(days=days)).strftime('%Y-%m-%d')
 
         params = {

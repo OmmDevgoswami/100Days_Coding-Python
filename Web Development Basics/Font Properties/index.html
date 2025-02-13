@@ -5,6 +5,10 @@
   <meta charset="UTF-8">
   <title>CSS Properties</title>
   <style>
+    html{
+      font-size: 30px;
+    }
+
     body {
       background-color: cornflowerblue;
       color: white;
@@ -12,18 +16,39 @@
     }
 
     /* Don't change the CSS above, add Your CSS below */
+    #color{
+      color : coral;
+    }
 
+    #fontSize{
+      font-size : 2rem;
+    }
+
+    #fontWeight{
+      font-weight: 900;
+    }
+
+    #fontFamily{
+      font-family: 'Caveat', cursive;
+    }
+
+    #fontPosition{
+      text-align: right;
+    }
     
   </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <h1>Important CSS Properties</h1>
-  <p>Color</p>
-  <p>Font Size</p>
-  <p>Font Weight</p>
-  <p>Font Family</p>
-  <p>Text Align</p>
+  <p id="color">Color</p>
+  <p id="fontSize">Font Size</p>
+  <p id="fontWeight">Font Weight</p>
+  <p id="fontFamily">Font Family</p>
+  <p id="fontPosition">Text Align</p>
 
   <!-- TODOs
   1. Change the color of <p>Color</p> to "coral" color.

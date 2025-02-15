@@ -1,0 +1,4 @@
+Web scraping is not a legal (more on ethical) thing so always check before webscraping.
+
+1. Try to opt for a (if avaiable) API of the website
+2. Use robots.txt {Ex- www.helloworld.com/robots.txt} format to chehck if a website always web-scarping or now.

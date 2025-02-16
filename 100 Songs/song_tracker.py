@@ -2,10 +2,9 @@ from bs4 import BeautifulSoup
 import requests
 
 class Songlist:
-    def __init__(self):
+    def __init__(self, dateVal):
         self.songList = {}
-        self.dateVal = input("Enter the data you want the songs of(in yyyy-mm-dd format): ")
-        self.url = "https://www.billboard.com/charts/hot-100/" + self.dateVal
+        self.url = "https://www.billboard.com/charts/hot-100/" + dateVal
         self.finalList()
         
     def finalList(self):
@@ -15,13 +14,20 @@ class Songlist:
         content = website.text
         soupDetails = BeautifulSoup(markup = content, features = "html.parser")
         songName = soupDetails.select(selector = "li.o-chart-results-list__item > h3.c-title")
-        songArtist = soupDetails.select(selector = "li.o-chart-results-list__item > span.a-no-trucate")
-        for song, artist in zip(songName, songArtist):
-            self.songList[song.text.strip()] = artist.text.strip()
-        print(self.songList)
+        songArtists = soupDetails.select(selector = "li.o-chart-results-list__item > span.a-no-trucate")
+        songArtist = []
+        for artist in songArtists:
+            artist_text = artist.text.strip()  
+            artist_text = artist_text.replace("Featuring", "feat.").replace("\\'", "'")
+            songArtist.append(artist_text)
         
-a = Songlist()
-
+        for song, artist in zip(songName, songArtist):
+            self.songList[song.text.strip()] = artist
+        return self.songList
+        
+# a = Songlist()
+# val = a.finalList()
+# print(val)
 
 # val = input("Enter the date:")
 # url = "https://www.billboard.com/charts/hot-100/" + val+"/"

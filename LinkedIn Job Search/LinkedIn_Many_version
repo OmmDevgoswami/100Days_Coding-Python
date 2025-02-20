@@ -1,0 +1,63 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
+import time
+
+chrome_option = webdriver.ChromeOptions()
+chrome_option.add_experimental_option("detach", True)
+
+driver = webdriver.Chrome(options = chrome_option)
+driver.get("https://www.linkedin.com/checkpoint/lg/sign-in-another-account?trk=guest_homepage-basic_nav-header-signin")
+driver.maximize_window()
+
+name = driver.find_element(By.NAME, "session_key")
+name.send_keys("ayamamouto@gmail.com")
+time.sleep(10)
+
+password  = driver.find_element(By.NAME, "session_password")
+password.send_keys("password2321")
+time.sleep(5)
+
+signIn = driver.find_element(By.XPATH, '//*[@id="organic-div"]/form/div[3]/button')
+signIn.click()
+time.sleep(5)
+
+jobSection = driver.find_element(By.XPATH, '//*[@id="global-nav"]/div/nav/ul/li[3]/a')
+jobSection.click()
+time.sleep(5)
+
+position = driver.find_element(By.CSS_SELECTOR, "input.jobs-search-box__text-input")
+position.send_keys("Python Developer")
+time.sleep(2)
+position.send_keys(Keys.ENTER)
+
+time.sleep(2)
+easyApply = driver.find_element(By.CSS_SELECTOR, "#searchFilter_applyWithLinkedin")
+easyApply.click()
+time.sleep(2)
+search = driver.find_element(By.CSS_SELECTOR, "button.jobs-search-box__submit-button")
+search.click()
+time.sleep(3)
+
+jobList = driver.find_elements(By.CSS_SELECTOR, ".job-card-container--clickable")
+
+for jobs in jobList:
+    jobs.click()
+    time.sleep(2)
+    
+    try:
+        saveButton = driver.find_element(By.CLASS_NAME, "jobs-save-button")
+        saveButton.click()
+        time.sleep(2)
+        
+        try:
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            followButton = driver.find_element(By.CLASS_NAME, "follow")
+            followButton.click()
+            
+        except NoSuchElementException as e:
+            print("No Follow Button Found")
+        
+    except NoSuchElementException as e:
+        print("No Save Button Found")

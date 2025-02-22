@@ -48,6 +48,12 @@ Following Accounts Lead to Restriction under the rules of Instagram.
 
 # # Need to Manually click "Not Now"
 
+# turn_off_notifications = driver.find_element(By.XPATH,
+#                                                   '/html/body')
+# turn_off_notifications.send_keys(Keys.TAB + Keys.TAB + Keys.ENTER)
+
+# #Got Solution to pop up
+
 # searchOption = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/div/div/div/div/div[2]/div[2]/span")
 # searchOption.click()
 # time.sleep(10)

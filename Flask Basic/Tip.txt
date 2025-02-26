@@ -2,3 +2,7 @@ To run a Flask file, always remember to be in the folder where the python file i
 
 when on the cli type :
 flask --app <python file name> run
+
+if __name__ == "__main__":
+    app.run()
+This is an alternative that can be used to run the program and oepn the site without the CLI commands

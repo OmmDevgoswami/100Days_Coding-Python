@@ -31,3 +31,6 @@ goodMorning()
 #How the actual decorator works:
 decorated_function = delayer_prompter(sayGreetings)
 decorated_function()
+
+#Double Function Call
+delayer_prompter(sayGreetings)()

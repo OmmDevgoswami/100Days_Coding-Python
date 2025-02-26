@@ -13,7 +13,7 @@ def delayer_prompter():
 delayer_prompter() #prints only "I am a delay prompter"
 
 try:
-    wrapper()           
+    wrapper()            # type: ignore
 except NameError as e:
     print(f"Error: {e}")
 #This gives name error as wrapper() is a nested function and is present inside the delay_prompter(), hence it is not

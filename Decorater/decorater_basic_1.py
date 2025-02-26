@@ -52,7 +52,7 @@ talk()
 # But "whisper" DOES NOT EXIST outside "talk":
 
 try:
-    print(whisper())
+    print(whisper()) # type: ignore
 except NameError as e:
     print(e)
     #outputs : "name 'whisper' is not defined"*

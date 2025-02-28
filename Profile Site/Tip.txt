@@ -1,0 +1,4 @@
+Flask is a framework so it has it's own set of rules such are:
+
+Ant html template(pages used) are required to be store in the templates folder first
+Any css or image files are needed to be stored in the static folder

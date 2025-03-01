@@ -157,8 +157,8 @@ Link : {_[3]}"""
 
 userLocation = "Bhubaneswar, Odisha"
 propertyNo = 2
-checkIn = "02-28"
-checkOut = "03-02"
+checkIn = "03-01"
+checkOut = "03-05"
 testCall = Airbnb_Data(userLocation, propertyNo, checkIn, checkOut)
 val = testCall.propertyDetails()
 

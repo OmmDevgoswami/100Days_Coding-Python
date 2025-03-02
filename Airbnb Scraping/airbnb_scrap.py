@@ -1,8 +1,8 @@
+from turtle_input import get_booking_details
 from bs4 import BeautifulSoup
 import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 import time
 import smtplib
@@ -52,39 +52,43 @@ class Airbnb_Data:
         self.data = []
 
         for _ in range(1, propertyNo + 1):
-            property = self.driver.find_element(By.XPATH, f"/html/body/div[5]/div/div/div[1]/div/div[3]/div[1]/main/div[2]/div/div[2]/div/div/div/div/div/div[{_}]/div/div[2]/div/div/div/div")
-            property.click()
-            windows = self.driver.window_handles
-            self.driver.switch_to.window(windows[1])
-
-            url = self.driver.current_url
-            # website = requests.get(url)
-            # website.raise_for_status()
-            # content = website.text
-            propertyUrl = url
-            time.sleep(5)
-            content = self.driver.page_source
-            
-            soupDetails = BeautifulSoup(markup = content, features = "html.parser")
-            name = soupDetails.find("h1")
-            propertyName = name.text
-            
-            price = soupDetails.find(class_ = "_hb913q")
-            propertyPrice = price.text.strip().replace(",","")
-            
             try:
-                rating = self.driver.find_element(By.XPATH, '/html/body/div[5]/div/div/div[1]/div/div[2]/div/div/div/div[1]/main/div/div[1]/div[3]/div/div[1]/div/div[2]/div/div/div/a/div/div[2]/div[1]')
-            except NoSuchElementException as e:
+                property = self.driver.find_element(By.XPATH, f"/html/body/div[5]/div/div/div[1]/div/div[3]/div[1]/main/div[2]/div/div[2]/div/div/div/div/div/div[{_}]/div/div[2]/div/div/div/div")
+                property.click()
+                windows = self.driver.window_handles
+                self.driver.switch_to.window(windows[1])
+
+                url = self.driver.current_url
+                # website = requests.get(url)
+                # website.raise_for_status()
+                # content = website.text
+                propertyUrl = url
+                time.sleep(5)
+                content = self.driver.page_source
+                
+                soupDetails = BeautifulSoup(markup = content, features = "html.parser")
+                name = soupDetails.find("h1")
+                propertyName = name.text
+                
+                price = soupDetails.find(class_ = "_hb913q")
+                propertyPrice = price.text.strip().replace(",","")
+                
                 try:
-                    rating = self.driver.find_element(By.XPATH, '//*[@id="site-content"]/div/div[1]/div[3]/div/div[1]/div/div[1]/div/div/div/section/div[3]/div[2]')
-                except NoSuchElementException as f:
-                    ratingNew = self.driver.find_element(By.XPATH, '//*[@id="site-content"]/div/div[1]/div[3]/div/div[1]/div/div[1]/div/div/div/section/div[3]/a')
-                    rating = ratingNew[0]
-            propertyRating = rating.text
-            
-            self.driver.close()
-            self.driver.switch_to.window(windows[0])
-            self.data.append([propertyName, propertyPrice, propertyRating, propertyUrl])
+                    rating = self.driver.find_element(By.XPATH, '/html/body/div[5]/div/div/div[1]/div/div[2]/div/div/div/div[1]/main/div/div[1]/div[3]/div/div[1]/div/div[2]/div/div/div/a/div/div[2]/div[1]')
+                except NoSuchElementException as e:
+                    try:
+                        rating = self.driver.find_element(By.XPATH, '//*[@id="site-content"]/div/div[1]/div[3]/div/div[1]/div/div[1]/div/div/div/section/div[3]/div[2]')
+                    except NoSuchElementException as f:
+                        ratingNew = self.driver.find_element(By.XPATH, '//*[@id="site-content"]/div/div[1]/div[3]/div/div[1]/div/div[1]/div/div/div/section/div[3]/a')
+                        rating = ratingNew[0]
+                propertyRating = rating.text
+                
+                self.driver.close()
+                self.driver.switch_to.window(windows[0])
+                self.data.append([propertyName, propertyPrice, propertyRating, propertyUrl])
+            except NoSuchElementException as e:
+                print(f"No More Available Property in the location")
+                break
             
         self.driver.quit()
         
@@ -155,16 +159,16 @@ Link : {_[3]}"""
         response = requests.get(send_text)
         return response.json()
 
-userLocation = "Bhubaneswar, Odisha"
-propertyNo = 2
-checkIn = "03-01"
-checkOut = "03-05"
-testCall = Airbnb_Data(userLocation, propertyNo, checkIn, checkOut)
-val = testCall.propertyDetails()
 
-sent = Messenger(val)
-sent.googleForm()
-sent.email_("ommdevgoswami@yahoo.com")
-sent.telegramBot()
+userLocation, propertyNo, checkIn, checkOut, clientEmail = get_booking_details()
+# print(userLocation,propertyNo, checkIn,checkOut, clientEmail)
+testCall = Airbnb_Data(userLocation, int(propertyNo), checkIn, checkOut)
+val = testCall.propertyDetails()
+print(val)
+
+# sent = Messenger(val)
+# sent.googleForm()
+# sent.email_("ommdevgoswami@yahoo.com")
+# sent.telegramBot()
 
 print("Success")

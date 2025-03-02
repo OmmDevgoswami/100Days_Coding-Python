@@ -20,8 +20,8 @@ screen.config(bg=YELLOW)
 font_path = "Airbnb Scraping\\Resources\\Hammersmith_One\\HammersmithOne-Regular.ttf"
 FONT = font.Font(family="Hammersmith One", size=14)
 
-for i in range(10):  # Adjust according to the number of rows in your layout
-    screen.grid_rowconfigure(i, minsize=60)  # Reduce row height globally
+for i in range(10): 
+    screen.grid_rowconfigure(i, minsize=60) 
 #---------------------------------- BACKGROUND -------------------------------------------#
 randomImage = ["BG1.jpeg", "BG2.jpeg", "BG3.jpeg", "BG4.jpeg", "BG5.jpeg", "BG6.jpeg"]
 randomChoice = random.choice(randomImage)
@@ -98,37 +98,44 @@ def get_booking_details():
         button.pack(pady=10)
 
     location_label = Label(screen, text="LOCATION:", font=("Arial", 16, "bold"), bg=PINK)
-    location_label.grid(row=5, column=1, sticky="e", padx=3)
+    location_label.grid(row=4, column=1, sticky="e", padx=3)
     location_entry = Entry(screen, width=40, font=("Arial", 14), bg=GRAY, fg=VIOLET)
     location_entry.focus()
-    location_entry.grid(row=5, column=2, sticky="w", padx=3)
+    location_entry.grid(row=4, column=2, sticky="w", padx=3)
 
     property_label = Label(screen, text="PROPERTY No(s):", font=("Arial", 16, "bold"), bg=PINK)
-    property_label.grid(row=6, column=1, sticky="e", padx=3)
+    property_label.grid(row=5, column=1, sticky="e", padx=3)
     property_entry = Entry(screen, width=20, font=("Arial", 14), bg=GRAY, fg=VIOLET)
-    property_entry.grid(row=6, column=2, sticky="w", padx=3)
+    property_entry.grid(row=5, column=2, sticky="w", padx=3)
 
     checkIn_label = Label(screen, text="Check-In Date:", font=("Arial", 16, "bold"), bg=PINK)
-    checkIn_label.grid(row=7, column=1, sticky="e", padx=5, pady=5)
+    checkIn_label.grid(row=6, column=1, sticky="e", padx=5, pady=5)
     checkIn_button = Button(screen, text="Select", font=FONT, bg=YELLOW, fg=RED, width=10, relief=RAISED, command=lambda: calender("check-in"))
-    checkIn_button.grid(row=7, column=2, sticky="w", padx=5, pady=5)
+    checkIn_button.grid(row=6, column=2, sticky="w", padx=5, pady=5)
 
     checkOut_label = Label(screen, text="Check-Out Date:", font=("Arial", 16, "bold"), bg=PINK) 
-    checkOut_label.grid(row=7, column=2, sticky="e", padx=5, pady=5)
+    checkOut_label.grid(row=6, column=2, sticky="e", padx=5, pady=5)
     checkOut_button = Button(screen, text="Select", font=FONT, bg=YELLOW, fg=RED, width=10, relief=RAISED, command=lambda: calender("check-out"))
-    checkOut_button.grid(row=7, column=3, sticky="w", padx=5, pady=5)
+    checkOut_button.grid(row=6, column=3, sticky="w", padx=5, pady=5)
+    
+    clientEmail_label = Label(screen, text="EMAIL:", font=("Arial", 16, "bold"), bg=PINK)
+    clientEmail_label.grid(row=7, column=1, sticky="e", padx=3)
+    clientEmail_entry = Entry(screen, width=40, font=("Arial", 14), bg=GRAY, fg=VIOLET)
+    clientEmail_entry.focus()
+    clientEmail_entry.grid(row=7, column=2, sticky="w", padx=3)
 
     def submit():
             global check_in_date, check_out_date
             userLocation = location_entry.get()
             propertyNo = property_entry.get()
-            details = [userLocation, propertyNo, check_in_date, check_out_date]
+            clientEmail = clientEmail_entry.get()
+            details = [userLocation, propertyNo, check_in_date, check_out_date, clientEmail]
             checkIn = check_in_date
             checkOut = check_out_date
-            print(userLocation)
-            print(propertyNo)
-            print(checkIn)
-            print(checkOut)
+            # print(userLocation)
+            # print(propertyNo)
+            # print(checkIn)
+            # print(checkOut)
             screen.quit()  
             screen.destroy()
             screen.result = details  
@@ -139,4 +146,4 @@ def get_booking_details():
     screen.mainloop()
     return screen.result
 
-get_booking_details()
+# get_booking_details()

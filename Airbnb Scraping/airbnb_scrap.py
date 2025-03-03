@@ -154,9 +154,9 @@ Link : {_[3]}"""
             
         finalMessage = "\n\n".join(messages)
         
-        encoded_message = urllib.parse.quote(finalMessage)
-        send_text = f'https://api.telegram.org/bot{telegram_key}/sendMessage?chat_id={botID}&parse_mode=Markdown&text={encoded_message}'
+        send_text = f'https://api.telegram.org/bot{telegram_key}/sendMessage?chat_id={botID}&parse_mode=HTML&text={urllib.parse.quote(finalMessage, safe=":/")}'
         response = requests.get(send_text)
+        # print(response.status_code, response.text)
         return response.json()
 
 
@@ -164,11 +164,10 @@ userLocation, propertyNo, checkIn, checkOut, clientEmail = get_booking_details()
 # print(userLocation,propertyNo, checkIn,checkOut, clientEmail)
 testCall = Airbnb_Data(userLocation, int(propertyNo), checkIn, checkOut)
 val = testCall.propertyDetails()
-print(val)
+# print(val)
 
-# sent = Messenger(val)
-# sent.googleForm()
-# sent.email_("ommdevgoswami@yahoo.com")
-# sent.telegramBot()
-
+sent = Messenger(val)
+sent.googleForm()
+sent.email_(clientEmail)
+sent.telegramBot()
 print("Success")

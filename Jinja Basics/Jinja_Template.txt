@@ -1,0 +1,5 @@
+Any element put inside a {{ - }} is treated as a Jinja element and can be manipulated 
+using Python code using Flask.
+
+In case any variable is usedin the HTML file, it can be passed from the Python file
+to set it's value dynamically in the file.

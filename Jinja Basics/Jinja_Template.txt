@@ -3,3 +3,8 @@ using Python code using Flask.
 
 In case any variable is usedin the HTML file, it can be passed from the Python file
 to set it's value dynamically in the file.
+
+For multiline Jinja code we have to use format {% <conditional/looping> %}
+                                                        <tags> {{ ---- }} </tags>
+                                                        <tags> {{ ---- }} </tags>
+                                                {% end<conditional/looping> %}

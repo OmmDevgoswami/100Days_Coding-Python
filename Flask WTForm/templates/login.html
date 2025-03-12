@@ -1,22 +1,37 @@
 <!DOCTYPE HTML>
-
 <html>
-	<head>
-		<title>Login</title>
-	</head>
-	<body>
-        <div class="container">
-		<h1>Login</h1>
-        <!-- This is where our form will go. -->
-		<form method="POST" action="{{ url_for('login') }}">
-			{{ form.hidden_tag() }}
-			{{ form.name.label }} {{ form.name(size=20) }}
-			<br />
-			{{ form.email.label }} {{ form.email(size=30) }}
-			{{ form.password.label }} {{ form.password(size=30) }}
-			<br />
-			<input type="submit" value="Go">
-		</form>
-        </div>
-	</body>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form method="POST" action="{{ url_for('login') }}" novalidate>
+            {{ form.hidden_tag() }}
+            
+            <p>
+                {{ form.name.label }} {{ form.name(size=20) }}
+                {% for er in form.name.errors %}
+                    <span style="color: red;">{{ er }}</span>
+                {% endfor %}
+            </p>
+
+            <p>
+                {{ form.email.label }} {{ form.email(size=30) }}
+                {% for er in form.email.errors %}
+                    <span style="color: red;">{{ er }}</span>
+                {% endfor %}
+            </p>
+
+            <p>
+                {{ form.password.label }} {{ form.password(size=30) }}
+                {% for er in form.password.errors %}
+                    <span style="color: red;">{{ er }}</span>
+                {% endfor %}
+            </p>		
+            <br />
+            {{ form.submit }}
+        </form>
+    </div>
+</body>
 </html>

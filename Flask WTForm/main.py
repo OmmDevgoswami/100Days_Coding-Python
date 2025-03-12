@@ -1,18 +1,24 @@
 from flask import Flask, render_template
+import os
+import dotenv
+from forms import MyForm
+
+dotenv.load_dotenv()
+FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
 
 app = Flask(__name__)
+app.secret_key = FLASK_SECRET_KEY
 
 @app.route("/")
 def home():
     return render_template('index.html')
 
-@app.route("/login")
+@app.route("/login", methods = ["POST", "GET"])
 def login():
-    return render_template('login.html')
+    form = MyForm()
+    if form.validate_on_submit():
+        return "Form submitted successfully!"
+    return render_template('login.html', form=form)
 
-@app.route("/access")
-def access():
-    return render_template('login.html')
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

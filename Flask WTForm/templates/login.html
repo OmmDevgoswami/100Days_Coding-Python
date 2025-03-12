@@ -8,6 +8,15 @@
         <div class="container">
 		<h1>Login</h1>
         <!-- This is where our form will go. -->
+		<form method="POST" action="{{ url_for('login') }}">
+			{{ form.hidden_tag() }}
+			{{ form.name.label }} {{ form.name(size=20) }}
+			<br />
+			{{ form.email.label }} {{ form.email(size=30) }}
+			{{ form.password.label }} {{ form.password(size=30) }}
+			<br />
+			<input type="submit" value="Go">
+		</form>
         </div>
 	</body>
 </html>

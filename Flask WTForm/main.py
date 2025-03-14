@@ -28,5 +28,10 @@ def login():
     
     return render_template('login.html', form=form)
 
+#documentation
+@app.route("/docs")
+def docs():
+    return render_template('docs.html')
+
 if __name__ == "__main__":
     app.run(debug=True)

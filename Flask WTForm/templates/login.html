@@ -1,37 +1,19 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <title>Login</title>
-</head>
-<body>
-    <div class="container">
-        <h1>Login</h1>
-        <form method="POST" action="{{ url_for('login') }}" novalidate>
-            {{ form.hidden_tag() }}
-            
-            <p>
-                {{ form.name.label }} {{ form.name(size=20) }}
-                {% for er in form.name.errors %}
-                    <span style="color: red;">{{ er }}</span>
-                {% endfor %}
-            </p>
-
-            <p>
-                {{ form.email.label }} {{ form.email(size=30) }}
-                {% for er in form.email.errors %}
-                    <span style="color: red;">{{ er }}</span>
-                {% endfor %}
-            </p>
-
-            <p>
-                {{ form.password.label }} {{ form.password(size=30) }}
-                {% for er in form.password.errors %}
-                    <span style="color: red;">{{ er }}</span>
-                {% endfor %}
-            </p>		
-            <br />
-            {{ form.submit }}
-        </form>
+{% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+	{% block title %} Login {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body login-container">
+                    <h2 class="text-center mb-4">Login</h2>
+						{{ render_form(form, button_map={"submit": "btn btn-primary w-100"}) }}
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}
+
+

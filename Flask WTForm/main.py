@@ -2,12 +2,14 @@ from flask import Flask, render_template, request, make_response
 import os
 import dotenv
 from forms import MyForm
+from flask_bootstrap import Bootstrap5
 
 dotenv.load_dotenv()
 FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
 
 app = Flask(__name__)
 app.secret_key = FLASK_SECRET_KEY
+bootstrap = Bootstrap5(app)
 
 @app.route("/")
 def home():
@@ -22,16 +24,12 @@ def login():
         # Name: {form.name.data} <br />
         # Email: {form.email.data} <br />
         # Password: {form.password.data}""")
-        return render_template('success.html')
-    if form.validate_on_submit():
-        return render_template('denied.html')
+        if form.email.data == "admin@email.com" and form.password.data == "12345678":
+            return render_template("success.html")
+        else:
+            return render_template("denied.html")
     
     return render_template('login.html', form=form)
-
-#documentation
-@app.route("/docs")
-def docs():
-    return render_template('docs.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

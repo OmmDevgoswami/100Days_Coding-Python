@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, ValidationError, URLField, SelectField, TimeField
@@ -20,9 +20,9 @@ class CafeForm(FlaskForm):
     location = URLField('Cafe Location (Google Map) URL', validators=[DataRequired()])
     open_time = TimeField('Open Time', validators=[DataRequired()], format='%H:%M')
     closing_time = TimeField('Closing Time', validators=[DataRequired()], format='%H:%M')
-    coffee_rating = SelectField('Coffee Rating', validators=[DataRequired()], default = "0", choices=[("0", "✘")] + [(str(i),i*"☕️") for i in range(1,6)])
-    wifi_rating = SelectField('WiFi Rating', validators=[DataRequired()], default = "0", choices=[("0", "✘")] +[(str(i),i*"💪") for i in range(1,6)])
-    power_rating = SelectField('Power Outlet Rating', validators=[DataRequired()], default = "0", choices=[("0", "✘")] +[(str(i),i*"🔌") for i in range(1,6)])
+    coffee_rating = SelectField('Coffee Rating', validators=[DataRequired()], default = "0", choices=[( "✘")] + [(i*"☕️") for i in range(1,6)])
+    wifi_rating = SelectField('WiFi Rating', validators=[DataRequired()], default = "0", choices=[("✘")] +[(i*"💪") for i in range(1,6)])
+    power_rating = SelectField('Power Outlet Rating', validators=[DataRequired()], default = "0", choices=[( "✘")] +[(i*"🔌") for i in range(1,6)])
     submit = SubmitField('Submit')
     
     def validate_location(self, field):
@@ -48,11 +48,11 @@ def home():
 def add_cafe():
     form = CafeForm()
     if form.validate_on_submit():
-        with open("Coffee Wifi\cafe-data.csv","a", newline='', encoding='utf-8') as csv_file:
+        with open("Coffee Wifi\cafe-data.csv","a", newline='\n', encoding='utf-8') as csv_file:
             csv_data = csv.writer(csv_file, delimiter=',')
             data = [form.cafe.data, form.location.data, form.open_time.data.strftime('%H:%M'), form.closing_time.data.strftime('%H:%M'), form.coffee_rating.data, form.wifi_rating.data, form.power_rating.data]
             csv_data.writerow(data)
-            return render_template('add.html', form=form, success=True)
+            return redirect(url_for('add_cafe'))
     # Exercise:
     # Make the form write a new row into cafe-data.csv
     # with   if form.validate_on_submit()

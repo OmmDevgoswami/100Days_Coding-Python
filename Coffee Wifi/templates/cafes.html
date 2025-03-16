@@ -13,13 +13,13 @@
           <!-- This is where you will write the code to render a Bootstrap 
           Table that contains all the information from the 
           cafe-data.csv file. -->
-            <th>
+            <thead>
                 <tr>
                     {% for header in cafes[0] %}
                         <th>{{ header }}</th>
                     {% endfor %}
                 </tr>
-            </th>
+            </thead>
             <tb>
                 {% for cafe in cafes[1:] %}
                     <tr>

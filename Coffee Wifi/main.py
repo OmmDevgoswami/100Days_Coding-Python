@@ -11,7 +11,7 @@ dotenv.load_dotenv()
 FLA_SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "FLA_SECRET_KEY"
+app.config['SECRET_KEY'] = FLA_SECRET_KEY
 Bootstrap5(app)
 
 

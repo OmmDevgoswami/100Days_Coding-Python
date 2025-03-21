@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
 from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField
@@ -9,9 +10,15 @@ import dotenv
 
 dotenv.load_dotenv()
 FLA_SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
+class Base(DeclarativeBase):
+  pass
+
+db = SQLAlchemy(model_class=Base)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = FLA_SECRET_KEY
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///new-books-collection.db"
+db.init_app(app)
 bootstrap = Bootstrap5(app)
 all_books = []
 

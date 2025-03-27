@@ -6,7 +6,7 @@
     {% if books %}
       <ul>
         {% for book in books %}
-            <li> {{ book["title"] }} - {{ book["author"] }} - {{ book["rating"] }}/10 </li>
+            <li> {{ book.bookTitle }} - {{ book.bookAuthor }} - {{ book.bookRating }}/10 <a href="{{ url_for('rating', book_id=book.id) }}"> Re-rate</a> <a href="{{ url_for('deleting', book_id=book.id) }}"> Remove </a> </li>
         {% endfor %}
       </ul>
     {% else %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %} Re-Rating {% endblock %}
+
+{% block content %}
+    <h2>Change the Rating</h2>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        
+        <h4>Old Rating: {{ value }}</h4>
+        <h4>{{ form.rating.label }} {{ form.rating }} </h4>
+
+        <br />
+        <button class="btn btn-primary" type="submit">Update Rating</button> 
+    </form>
+{% endblock %}

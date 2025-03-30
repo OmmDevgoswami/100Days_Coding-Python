@@ -180,10 +180,12 @@ from flask import Flask, request, jsonify
 
 @app.route("/update/<int:id>", methods=["PATCH"])
 def update(id):
-    cafe = db.session.execute(db.select(Cafe).where(Cafe.id == id)).scalar_one_or_none()
+    # cafe = db.session.execute(db.select(Cafe).where(Cafe.id == id)).scalar_one_or_none()
+    cafe_val = request.args.get(id)
+    cafe = db.get_or_404(Cafe, cafe_val)
 
-    if not cafe:
-        return jsonify({"error": "Searched Cafe is not available"}), 404
+    # if not cafe:
+    #     return jsonify({"error": "Searched Cafe is not available"}), 404
 
     data = request.get_json()
 
@@ -194,6 +196,23 @@ def update(id):
     cafe.coffee_price = new_price
     db.session.commit()
 
+    return jsonify({"success": f"Successfully updated the coffee price for cafe ID {id}."})
+
+@app.route("/report-update/<int:id>", methods=["GET", "DELETE"])
+def delete(id):
+    cafe = db.get_or_404(Cafe, id)
+    
+    if not cafe:
+        return jsonify({"error": "Searched Cafe is not available"}), 404
+
+    data = request.get_json()
+    api_key = request.get_json().get("API_KEY")
+    
+    if api_key != "TopSecretKey":
+        return jsonify({"error": "Wrong API Key provided."}), 403
+    
+    db.session.delete(cafe)
+    db.session.commit()
     return jsonify({"success": f"Successfully updated the coffee price for cafe ID {id}."})
 
 

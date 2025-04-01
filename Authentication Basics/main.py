@@ -7,6 +7,9 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret-key-goes-here'
+login_manager = LoginManager()
+login_manager.init_app(app)
+# login_manager.login_view = "login"
 
 # CREATE DATABASE
 class Base(DeclarativeBase):
@@ -17,7 +20,7 @@ db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
 # CREATE TABLE IN DB
-class User(db.Model):
+class User(UserMixin, db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     email: Mapped[str] = mapped_column(String(100), unique=True)
     password: Mapped[str] = mapped_column(String(100))
@@ -31,10 +34,20 @@ class User(db.Model):
 def home():
     return render_template("index.html")
 
+@login_manager.user_loader
+def load_user(user_id):
+    return db.session.get(User, int(user_id))
 
 @app.route('/register', methods = ["GET", "POST"])
 def register():
     if request.method == "POST":
+        email = request.form.get("email")
+        existing_user = User.query.filter_by(email=email).first()
+
+        if existing_user:
+            flash("User already exists! Please log in.")
+            return redirect(url_for('login'))
+        
         new_user = User(
             email = request.form.get("email"),
             password = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8),
@@ -54,12 +67,14 @@ def login():
     if request.method == "POST":
         existing_user = db.session.execute(db.select(User).where(User.email == request.form.get("email"))).scalar_one_or_none()
         if not existing_user:
-            flash("User not found!", "error")
+            flash("Wrong Credentials Entered !!", "error")
             return redirect(url_for("login"))
         
         if not check_password_hash(existing_user.password, request.form.get("password")):
-            flash("Password is Wrong!", "error")
+            flash("Wrong Credentials Entered !!", "error")
             return redirect(url_for("login"))
+        
+        login_user(existing_user)
         
         flash("Login Successfull")
         return redirect(url_for('secrets', userID = existing_user.id))
@@ -67,27 +82,23 @@ def login():
     return render_template("login.html")
 
 
-@app.route('/secrets/<int:userID>')
-def secrets(userID):
-    user = db.get_or_404(User, userID)
-    
-    if not user:
-        flash("User not found!", "error")
-        return redirect(url_for("register"))
-
-    return render_template("secrets.html", user_name = user.name)
+@app.route('/secrets')
+@login_required
+def secrets():
+    return render_template("secrets.html", user_name = current_user.name)
 
 
 @app.route('/logout')
+@login_required
 def logout():
-    pass
+    logout_user()
+    return redirect(url_for("home"))
 
 
 @app.route('/download')
+@login_required
 def download():
     return send_from_directory('static/files', "cheat_sheet.pdf", as_attachment = True)
-    # "as_attachment=True" in case we want to make the file download
-
 
 if __name__ == "__main__":
     app.run(debug=True)

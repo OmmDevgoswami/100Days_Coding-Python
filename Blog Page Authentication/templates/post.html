@@ -1,3 +1,4 @@
+{% from "bootstrap5/form.html" import render_form %} {% block content %}
 {% include "header.html" %}
 
 <!-- Page Header-->
@@ -10,7 +11,7 @@
           <h2 class="subheading">{{ post.subtitle }}</h2>
           <span class="meta"
             >Posted by
-            <a href="#">{{ post.author }}</a>
+            <a href="#">{{ post.user.name }}</a>
             on {{ post.date }}
           </span>
         </div>
@@ -36,23 +37,44 @@
 
         <!-- Comments Area -->
         <!-- TODO: Add a CKEditor for commenting below -->
+        <h2> Leave Your Thoughts </h2>
         <div class="comment">
+          {{ ckeditor.load(pkg_type="basic") }}
+          {{ ckeditor.config(name='body') }}
+          {{ render_form(form) }}
           <!-- TODO: Show all the comments on a post -->
-          <ul class="commentList">
-            <li>
-              <div class="commenterImage">
-                <img src="../static/assets/img/default-profile.jpg" />
-              </div>
-              <div class="commentText">
-                <p>Some comment</p>
-                <span class="date sub-text">comment author name</span>
+          {% if comments %}
+          <ul class="commentList list-unstyled">
+            {% for comment in comments %}
+            <li class="mb-4 border-bottom pb-3">
+              <div class="d-flex">
+                <img 
+                src="{{ avatar(comment.user.email, 'lorelei') }}" 
+                width="50"
+                height="50" 
+                class="rounded-circle" 
+                />
+                <div>
+                  <div class="commentText">
+                    <div class="mb-1 small text-muted">{{ comment.user.name }} 
+                      {% if current_user.is_authenticated and (current_user.id == 1 or current_user.role in ['admin', 'editor'] or current_user.id == comment.user.id) %}
+                      <a href="{{ url_for('delete_comment', comment_id=comment.id) }}" class="text-danger ms-2">✘</a>
+                    {% endif %}
+                    </div> 
+                    <div>{{ comment.text|safe }}</div>
+                  </div>
+                </div>
               </div>
             </li>
-          </ul>
+            {% endfor %}
+          </ul>      
+          {% else %}
+            <p class="text-muted">No comments yet. Be the first to comment!</p>
+          {% endif %}
         </div>
       </div>
     </div>
   </div>
 </article>
 
-{% include "footer.html" %}
+{% include "footer.html" %} {% endblock %}

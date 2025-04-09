@@ -110,7 +110,7 @@
             </li>
             <li>
               {% if current_user.is_authenticated %}
-                  <span class="badge bg-secondary">{{ current_user.role|capitalize }}</span>
+                  <span class="badge nav-link" style="padding-top: 25px; font-weight: bold;">{{ current_user.role|upper }}</span>
               {% endif %}
             </li>
           </ul>

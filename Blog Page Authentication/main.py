@@ -47,6 +47,12 @@ def editor_only(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def dicebear_avatar(seed, style="adventurer", size=60):
+    hash_str = hashlib.md5(seed.strip().lower().encode('utf-8')).hexdigest()
+    return f"https://api.dicebear.com/7.x/{style}/svg?seed={hash_str}&size={size}"
+
+app.jinja_env.globals['avatar'] = dicebear_avatar
+
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
@@ -67,6 +73,8 @@ class BlogPost(db.Model):
     body: Mapped[str] = mapped_column(Text, nullable=False)
     # author: Mapped[str] = mapped_column(String(250), nullable=False)
     img_url: Mapped[str] = mapped_column(String(250), nullable=False)
+    
+    comments = relationship("Comments", back_populates="post")
 
 # TODO: Create a User table for all your registered users. 
 class User(UserMixin, db.Model):
@@ -78,6 +86,17 @@ class User(UserMixin, db.Model):
     role: Mapped[str] = mapped_column(String(50), default="user")
     
     posts = relationship("BlogPost", back_populates="user")
+    comments = relationship("Comments", back_populates="user")
+    
+class Comments(db.Model):
+    __tablename__ = "comments"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    postId: Mapped[int] = mapped_column(Integer, db.ForeignKey("blog_post.id"))
+    user_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("user.id"))
+    text: Mapped[str] = mapped_column(Text, nullable=False)
+    
+    post = relationship("BlogPost", back_populates="comments")
+    user = relationship("User", back_populates="comments")
 
 with app.app_context():
     db.create_all()
@@ -151,10 +170,25 @@ def get_all_posts():
 
 
 # TODO: Allow logged-in users to comment on posts
-@app.route("/post/<int:post_id>")
+@app.route("/post/<int:post_id>", methods = ["GET", "POST"])
 def show_post(post_id):
+    comments = db.session.execute(db.select(Comments).where(Comments.postId == post_id)).scalars().all()
     requested_post = db.get_or_404(BlogPost, post_id)
-    return render_template("post.html", post=requested_post)
+    form = CommentForm()
+    if form.validate_on_submit():
+        if not current_user.is_authenticated:
+            flash("You must be logged in to comment.")
+            return redirect(url_for('login'))
+        
+        new_comment = Comments(
+            text = form.comment.data,
+            postId = post_id,
+            user = current_user
+        )
+        db.session.add(new_comment)
+        db.session.commit()
+        return redirect(url_for("show_post", post_id = post_id))
+    return render_template("post.html", post = requested_post, comments=comments, form=form)
 
 
 # TODO: Use a decorator so only an admin user can create a new post
@@ -186,14 +220,14 @@ def edit_post(post_id):
         title=post.title,
         subtitle=post.subtitle,
         img_url=post.img_url,
-        author=post.author,
+        user=post.user,
         body=post.body
     )
     if edit_form.validate_on_submit():
         post.title = edit_form.title.data
         post.subtitle = edit_form.subtitle.data
         post.img_url = edit_form.img_url.data
-        post.author = current_user
+        post.user = current_user
         post.body = edit_form.body.data
         db.session.commit()
         return redirect(url_for("show_post", post_id=post.id))
@@ -209,6 +243,12 @@ def delete_post(post_id):
     db.session.commit()
     return redirect(url_for('get_all_posts'))
 
+@app.route("/delete_comment/<int:comment_id>")
+def delete_comment(comment_id):
+    comment_to_delete = db.get_or_404(Comments, comment_id)
+    db.session.delete(comment_to_delete)
+    db.session.commit()
+    return redirect(url_for('show_post', post_id=comment_to_delete.postId))
 
 @app.route("/about")
 def about():

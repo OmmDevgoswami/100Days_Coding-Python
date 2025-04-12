@@ -57,7 +57,7 @@ app.jinja_env.globals['avatar'] = dicebear_avatar
 class Base(DeclarativeBase):
     pass
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///new_posts.db' 
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///new_posts.db')
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -264,4 +264,4 @@ def forbidden(e):
     return render_template("403.html"), 403
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=False, port=5002)

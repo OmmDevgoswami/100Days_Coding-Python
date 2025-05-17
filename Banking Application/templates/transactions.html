@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="mb-3">Transactions - Account {{ account.account_no }}</h2>
+            <p><strong>Type:</strong> {{ account.type }}</p>
+            <p><strong>Balance:</strong> ₹{{ account.balance }}</p>
+
+            <hr>
+
+            {% if transactions %}
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for txn in transactions %}
+                        <tr>
+                            <td>{{ txn.type }}</td>
+                            <td>₹{{ txn.amount }}</td>
+                            <td>{{ txn.description }}</td>
+                            <td>{{ txn.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <p class="text-muted mt-3">No transactions found for this account.</p>
+            {% endif %}
+
+            <div class="mt-4">
+                <a href="{{ url_for('home') }}" class="btn btn-secondary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

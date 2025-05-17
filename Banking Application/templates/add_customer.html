@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Add Customer</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.cust_no.label(class="form-label") }}
+        {{ form.cust_no(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.phoneno.label(class="form-label") }}
+        {{ form.phoneno(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.city.label(class="form-label") }}
+        {{ form.city(class="form-control") }}
+    </div>
+    {{ form.submit(class="btn btn-success") }}
+</form>
+{% endblock %}

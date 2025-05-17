@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="text-center mt-5">
+    <h1 class="display-4">Welcome to BankApp 🏦</h1>
+    <p class="lead mt-3">Manage customers, accounts, loans, deposits & more.</p>
+    <a class="btn btn-primary btn-lg mt-4" href="{{ url_for('customers') }}">View Customers</a>
+</div>
+{% endblock %}

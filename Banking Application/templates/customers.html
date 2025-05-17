@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>All Customers</h2>
+<table class="table table-bordered table-hover mt-3 shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in customers %}
+        <tr>
+            <td>{{ c.cust_no }}</td>
+            <td>{{ c.name }}</td>
+            <td>{{ c.phoneno }}</td>
+            <td>{{ c.city }}</td>
+            <td>
+                <a href="{{ url_for('update_customer', cust_no=c.cust_no) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                <a href="{{ url_for('delete_customer', cust_no=c.cust_no) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?');">Delete</a>
+                <a href="{{ url_for('account_details', cust_no=c.cust_no) }}" class="btn btn-sm btn-outline-success">Accounts</a>
+                <a href="{{ url_for('loan_details', cust_no=c.cust_no) }}" class="btn btn-sm btn-outline-warning">Loans</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -20,13 +20,13 @@ for _ in messages:
     recipient_email, message = parts[0].strip(), parts[1].strip()
     
     
-    # with smtplib.SMTP("smtp.gmail.com", port = 587) as emailSender:
-    #             emailSender.starttls()
-    #             emailSender.login(user = EMAIL, password = PASSWORD)
-    #             emailSender.sendmail(from_addr = EMAIL,
-    #                                 to_addrs = recipient_email,
-    #                                 msg = f"Subject: Built Fast with AI !! \n\n{message}"
-    #             )
+    with smtplib.SMTP("smtp.gmail.com", port = 587) as emailSender:
+                emailSender.starttls()
+                emailSender.login(user = EMAIL, password = PASSWORD)
+                emailSender.sendmail(from_addr = EMAIL,
+                                    to_addrs = recipient_email,
+                                    msg = f"Subject: Built Fast with AI !! \n\n{message}"
+                )
     
     encoded_message = urllib.parse.quote(message)    
     send_text = f'https://api.telegram.org/bot{telegram_key}/sendMessage?chat_id={botID}&parse_mode=HTML&text={urllib.parse.quote(encoded_message)}'
